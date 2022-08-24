@@ -1,13 +1,14 @@
 #ifndef __NODE_H
 #define __NODE_H
     #include "person.h"
-    
-    typedef struct
+
+    typedef struct node Node;
+    struct node
     {
-        struct node *next;
-        struct node *prev;
+        Node *next;
+        Node *prev;
         Person *person;
-    } Node;
+    };
 
     void createNode(Person *person);
 

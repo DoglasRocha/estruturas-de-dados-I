@@ -3,7 +3,7 @@
 
     typedef struct person
     {
-        char rg[6], nome[30];
+        char rg[6], name[30];
     } Person;
 
 #endif

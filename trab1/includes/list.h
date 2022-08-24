@@ -4,16 +4,16 @@
 
     typedef struct 
     {
-        Node *next;
-        Person *person;
-        const Node *prev;
+        Node *head;
+        Node *end;
         int length, C, M;
 
     } List;
 
-    List *createList(Person *personToAdd);
+    List *createList(void);
     void freeList(List *list);
     void insertNode(List *list, Node *node, int position);
     Node *removeNode(List *list, int position);
+    void printList(List *list);
 
 #endif
