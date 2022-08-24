@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "includes/node.h"
+#include "includes/list.h"
 #include "includes/person.h"
 
 int main(void)
 {
-    Node *node = malloc(sizeof(Node));
+    Person test;
+    List list = createList(&test);
 
-    if (node == NULL)
-        return 1;
 
-    node->prev = NULL;
-    node->next = NULL;
-
-    
 }
