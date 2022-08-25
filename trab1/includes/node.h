@@ -10,6 +10,7 @@
         Person *person;
     };
 
-    void createNode(Person *person);
+    Node *createNode(Person *person);
+    void freeNode(Node *nodeToFree);
 
 #endif

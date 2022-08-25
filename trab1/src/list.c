@@ -67,6 +67,20 @@ void insertNodeInEnd(List *list, Node *node)
     list->C++;
 }
 
+Node *movePointerToPosition(List *list, int position)
+{
+    Node *aux;
+    int i;
+
+    if (position < list->length / 2) 
+        for (aux = list->head, i = 0; i < position; aux = aux->next, i++, list->C++, list->M++);
+
+    else
+        for (aux = list->end, i = list->length - 1; i > position; aux = aux->prev, i--, list->C++, list->M++);
+
+    return aux;
+}
+
 void insertNodeInPosition(List *list, Node *node, int position)
 {
     Node *aux;
@@ -83,22 +97,19 @@ void insertNodeInPosition(List *list, Node *node, int position)
 
     else
     {
-        for (aux = list->head, i = 0; i < position; aux = aux->next, i++, list->C++, list->M++);
+        aux = movePointerToPosition(list, position);
 
         node->prev = aux->prev;
         aux->prev->next = node; 
         node->next = aux;
         aux->prev = node;
         list->M += 4;
-        list->C += 2;
+        list->C += 3;
     }
 }
 
 void insertNode(List *list, Node *node, int position)
 {
-    Node *aux;
-    int i;
-
     switch (position)
     {
     case 0:
@@ -128,8 +139,7 @@ Node *removeNode(List *list, int position)
         return NULL;
     }
 
-    // for loop that reaches the desired position
-    for (nodeToRemove = list->head, i = 0; i < position; i++, nodeToRemove = nodeToRemove->next, list->C++, list->M++);
+    nodeToRemove = movePointerToPosition(list, position);
 
     aux = nodeToRemove->prev;
     aux->next = nodeToRemove->next;
