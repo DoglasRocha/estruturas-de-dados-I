@@ -4,6 +4,7 @@
 #include "includes/list.h"
 #include "includes/node.h"
 #include "includes/person.h"
+#include "includes/menu.h"
 
 int main(void)
 {
@@ -29,4 +30,6 @@ int main(void)
     printList(list);
 
     freeList(list);
+
+    showMenu();
 }
