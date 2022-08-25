@@ -135,9 +135,9 @@ Node *removeNode(List *list, int position)
 
     if (position >= list->length || position < 0) 
     {
-        list->C++;
         return NULL;
     }
+    list->C++;
 
     nodeToRemove = movePointerToPosition(list, position);
 
