@@ -2,6 +2,7 @@
 #include "../includes/node.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 List *createList(void) 
 {
@@ -180,7 +181,7 @@ Node *removeNodeInPosition(List *list, int position)
         list->C++;
         return removeHeadNode(list);
     }
-    else if (list->length <= position)
+    else if (list->length - 1 <= position)
     {
         list->C += 2;
         return removeTailNode(list);
@@ -221,6 +222,27 @@ Node *removeNode(List *list, int position)
 
     list->length--;
     return removedNode;
+}
+
+Node *searchNode(List *list, char rg[], int *position)
+{
+    Node *node;
+    int i;
+
+    for (node = list->head, i = 0; 
+         node->next != NULL;
+         node = node->next, i++, list->C += 2, list->M++)
+    {
+        if (!strcmp(node->person->rg, rg))
+        {
+            *position = i;
+            return node;       
+        }
+    }
+
+    *position = i;
+    return NULL;
+
 }
 
 void printList(List *list)

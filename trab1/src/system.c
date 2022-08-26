@@ -13,7 +13,12 @@ void SysPrintNodeInfo(List *list, Node *node, int position)
     else if (position == -1 || position > list->length)
         index = list->length;
 
-    printf("Nome: %s, RG: %s, C: %d, M: %d, Runtime: \n", node->person->name, node->person->rg, list->C, list->M);
+    if (node != NULL)
+        printf("Nome: %s, RG: %s, C: %d, M: %d, Runtime: \n", 
+            node->person->name, node->person->rg, list->C, list->M);
+    else
+        printf("Nó não encontrado, C: %d, M: %d, Runtime: \n", 
+            list->C, list->M);
 }
 
 Person *SysCreatePerson(void)
@@ -41,9 +46,17 @@ void SysRemoveNode(List *list, int position)
     freeNode(removedNode);
 }
 
+void SysSearchNode(List *list, char rg[])
+{
+    int position;
+    Node *node = searchNode(list, rg, &position);
+    SysPrintNodeInfo(list, node, position);
+}
+
 void SysEvaluateOption(List *list, int option)
 {
     int position;
+    char rg[8];
 
     switch (option)
     {
@@ -76,7 +89,9 @@ void SysEvaluateOption(List *list, int option)
         break;
 
     case 7:
-        
+        printf("Qual RG você deseja procurar? ");
+        scanf("%s", rg);
+        SysSearchNode(list, rg);
         break;
 
     case 8:
@@ -84,7 +99,6 @@ void SysEvaluateOption(List *list, int option)
         break;
 
     case 9:
-
         break;
     
     case 10:

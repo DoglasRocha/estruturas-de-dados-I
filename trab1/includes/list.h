@@ -14,6 +14,7 @@
     void freeList(List *list);
     void insertNode(List *list, Node *node, int position);
     Node *removeNode(List *list, int position);
+    Node *searchNode(List *list, char rg[], int *position);
     void printList(List *list);
 
 #endif
