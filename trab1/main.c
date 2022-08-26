@@ -5,36 +5,20 @@
 #include "includes/node.h"
 #include "includes/person.h"
 #include "includes/menu.h"
+#include "includes/system.h"
 
 int main(void)
 {
     List *list = createList();
-    Person *test, *test1, *test2, *test3;
-    Node *testNode, *testNode1, *testNode2, *testNode3;
-    
-    test = createPerson("12345678", "Doglas");
-    test1 = createPerson("32165487", "Doglas1");
-    test2 = createPerson("78456123", "Doglas2");
-    test3 = createPerson("87654321", "Doglas3");
+    int option;
 
-    testNode = createNode(test);
-    testNode1 = createNode(test1);
-    testNode2 = createNode(test2);
-    testNode3 = createNode(test3);
-
-    insertNode(list, testNode, 2);
-    insertNode(list, testNode1, 86);
-    insertNode(list, testNode2, 84);
-    insertNode(list, testNode3, 75);
-
-    removeNode(list, 0);
-    removeNode(list, 75);
-    removeNode(list, 75);
-    removeNode(list, 75);
-
-    printList(list);
+    option = showMenu();
+    while (option != 11)
+    {
+        SysEvaluateOption(list, option);
+        option = printMenu();
+    }
 
     freeList(list);
 
-    //showMenu();
 }

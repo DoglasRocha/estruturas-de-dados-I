@@ -207,7 +207,7 @@ Node *removeNode(List *list, int position)
         list->C++;
         break;
 
-    case 1:
+    case -1:
         removedNode = removeTailNode(list);
         list->C += 2;
         break;
