@@ -8,9 +8,8 @@ List *createList(void)
 {
     List *list = malloc(sizeof(List));
 
-    list->head = NULL;
-    list->end = NULL;
-    list->length = list->C = list->M = 0;
+    list->head = list->end = NULL;
+    list->length = 0;
 
     return list;
 }
@@ -18,7 +17,7 @@ List *createList(void)
 void freeList(List *list)
 {
     Node *aux, *tmp;
-    for (tmp = list->head; tmp != NULL; tmp = aux, list->C++)
+    for (tmp = list->head; tmp != NULL; tmp = aux)
     {
         aux = tmp->next;
         freeNode(tmp);
@@ -27,17 +26,17 @@ void freeList(List *list)
     free(list);
 }
 
-void insertNodeInEmptyList(List *list, Node *node)
+void insertNodeInEmptyList(List *list, Node *node, int *C, int *M)
 {
     list->head = list->end = node,
     node->prev = node->next = NULL,
-    list->M += 4;
+    (*M) += 4;
 }
 
-void insertNodeInHead(List *list, Node *node)
+void insertNodeInHead(List *list, Node *node, int *C, int *M)
 {
     if (list->length == 0)
-        insertNodeInEmptyList(list, node);
+        insertNodeInEmptyList(list, node, C, M);
 
     else
     {
@@ -45,16 +44,16 @@ void insertNodeInHead(List *list, Node *node)
         list->head = node; 
         node->prev = NULL; 
 
-        list->M += 3;
+        (*M) += 3;
     }
 
-    list->C++;
+    (*C)++;
 }
 
-void insertNodeInEnd(List *list, Node *node)
+void insertNodeInEnd(List *list, Node *node, int *C, int *M)
 {
     if (list->length == 0)
-        insertNodeInEmptyList(list, node);
+        insertNodeInEmptyList(list, node, C, M);
 
     else        
     {
@@ -62,84 +61,84 @@ void insertNodeInEnd(List *list, Node *node)
         node->prev = list->end;
         node->next = NULL;
         list->end = node;
-        list->M += 3;
+        (*M) += 3;
     }
 
-    list->C++;
+    (*C)++;
 }
 
-Node *movePointerToPosition(List *list, int position)
+Node *movePointerToPosition(List *list, int position, int *C, int *M)
 {
     Node *aux;
     int i;
 
     if (position < list->length / 2) 
-        for (aux = list->head, i = 0; i < position; aux = aux->next, i++, list->C++, list->M++);
+        for (aux = list->head, i = 0; i < position; aux = aux->next, i++, (*C)++, (*M)++);
 
     else
-        for (aux = list->end, i = list->length - 1; i > position; aux = aux->prev, i--, list->C++, list->M++);
+        for (aux = list->end, i = list->length - 1; i > position; aux = aux->prev, i--, (*C)++, (*M)++);
 
     return aux;
 }
 
-void insertNodeInPosition(List *list, Node *node, int position)
+void insertNodeInPosition(List *list, Node *node, int position, int *C, int *M)
 {
     Node *aux;
     int i;
 
     if (list->length == 0)
-        insertNodeInEmptyList(list, node),
-        list->C++;
+        insertNodeInEmptyList(list, node, C, M),
+        (*C)++;
     
 
     else if (list->length <= position)
-        insertNodeInEnd(list, node),
-        list->C += 2;
+        insertNodeInEnd(list, node, C, M),
+        (*C) += 2;
 
     else
     {
-        aux = movePointerToPosition(list, position);
+        aux = movePointerToPosition(list, position, C, M);
 
         node->prev = aux->prev;
         aux->prev->next = node; 
         node->next = aux;
         aux->prev = node;
-        list->M += 4;
-        list->C += 3;
+        (*M) += 4;
+        (*C) += 3;
     }
 }
 
-void insertNode(List *list, Node *node, int position)
+void insertNode(List *list, Node *node, int position, int *C, int *M)
 {
     switch (position)
     {
     case 0:
-        insertNodeInHead(list, node);
-        list->C++;
+        insertNodeInHead(list, node, C, M);
+        (*C)++;
         break;
 
     case -1:
-        insertNodeInEnd(list, node);
-        list->C += 2;
+        insertNodeInEnd(list, node, C, M);
+        (*C) += 2;
         break;
 
     default:
-        insertNodeInPosition(list, node, position);
-        list->C += 2;
+        insertNodeInPosition(list, node, position, C, M);
+        (*C) += 2;
         break;
     }
 
     list->length++;
 }
 
-Node *removeHeadNode(List *list)
+Node *removeHeadNode(List *list, int *C, int *M)
 {
     if (list->head == NULL)
     {
-        list->C++;
+        (*C)++;
         return NULL;
     }
-    list->C++;
+    (*C)++;
 
     Node *nodeToRemove = list->head;
 
@@ -148,90 +147,89 @@ Node *removeHeadNode(List *list)
     if (list->length > 1)
         list->head->prev = NULL;
 
-    list->C++;
-    list->M += 3;
+    (*C)++;
+    (*M) += 3;
     
     return nodeToRemove;
 }
 
-Node *removeTailNode(List *list)
+Node *removeTailNode(List *list, int *C, int *M)
 {
     if (list->end == NULL)
     {
-        list->C++;
+        (*C)++;
         return NULL;
     }
-    list->C++;
+    (*C)++;
     
     Node *nodeToRemove = list->end;
 
     list->end = nodeToRemove->prev;
     list->end->next = NULL;
 
-    list->M += 3;
+    (*M) += 3;
     return nodeToRemove;
 }
 
-Node *removeNodeInPosition(List *list, int position)
+Node *removeNodeInPosition(List *list, int position, int *C, int *M)
 {
     Node *nodeToRemove;
 
     if (list->length <= 1)
     {
-        list->C++;
-        return removeHeadNode(list);
+        (*C)++;
+        return removeHeadNode(list, C, M);
     }
     else if (list->length - 1 <= position)
     {
-        list->C += 2;
-        return removeTailNode(list);
+        (*C) += 2;
+        return removeTailNode(list, C, M);
     }
-    list->C += 2;
+    (*C) += 2;
 
-    nodeToRemove = movePointerToPosition(list, position);
+    nodeToRemove = movePointerToPosition(list, position, C, M);
 
     nodeToRemove->prev->next = nodeToRemove->next;
     nodeToRemove->next->prev = nodeToRemove->prev;
 
-    list->M += 3;
+    (*M) += 3;
     return nodeToRemove;
 }
 
-Node *removeNode(List *list, int position)
+Node *removeNode(List *list, int position, int *C, int *M)
 {
     Node *removedNode;
 
     switch (position)
     {
     case 0:
-        removedNode = removeHeadNode(list);
-        list->C++;
+        removedNode = removeHeadNode(list, C, M);
+        (*C)++;
         break;
 
     case -1:
-        removedNode = removeTailNode(list);
-        list->C += 2;
+        removedNode = removeTailNode(list, C, M);
+        (*C) += 2;
         break;
     
     default:
-        removedNode = removeNodeInPosition(list, position);
-        list->C += 2;
+        removedNode = removeNodeInPosition(list, position, C, M);
+        (*C) += 2;
         break;
     }
-
 
     list->length--;
     return removedNode;
 }
 
-Node *searchNode(List *list, char rg[], int *position)
+Node *searchNode(List *list, char rg[], int *position, int *C, int *M)
 {
     Node *node;
     int i;
 
     for (node = list->head, i = 0; 
          node->next != NULL;
-         node = node->next, i++, list->C += 2, list->M++)
+         node = node->next, i++, (*C) += 2, (*M)++)
     {
         if (!strcmp(node->person->rg, rg))
         {

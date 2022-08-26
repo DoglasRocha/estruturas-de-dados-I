@@ -6,15 +6,15 @@
     {
         Node *head;
         Node *end;
-        int length, C, M;
+        int length;
 
     } List;
 
     List *createList(void);
     void freeList(List *list);
-    void insertNode(List *list, Node *node, int position);
-    Node *removeNode(List *list, int position);
-    Node *searchNode(List *list, char rg[], int *position);
+    void insertNode(List *list, Node *node, int position, int *C, int *M);
+    Node *removeNode(List *list, int position, int *C, int *M);
+    Node *searchNode(List *list, char rg[], int *position, int *C, int *M);
     void printList(List *list);
 
 #endif
