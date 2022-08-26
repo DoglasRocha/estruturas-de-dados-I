@@ -20,7 +20,7 @@ void freeList(List *list)
     for (tmp = list->head; tmp != NULL; tmp = aux, list->C++)
     {
         aux = tmp->next;
-        free(tmp);
+        freeNode(tmp);
     }
         
     free(list);
@@ -114,41 +114,113 @@ void insertNode(List *list, Node *node, int position)
     {
     case 0:
         insertNodeInHead(list, node);
+        list->C++;
         break;
 
     case -1:
         insertNodeInEnd(list, node);
+        list->C += 2;
         break;
 
     default:
         insertNodeInPosition(list, node, position);
+        list->C += 2;
         break;
     }
 
     list->length++;
 }
 
-Node *removeNode(List *list, int position)
+Node *removeHeadNode(List *list)
 {
-    Node *nodeToRemove, *aux;
-    int i;
-
-    if (position >= list->length || position < 0) 
+    if (list->head == NULL)
     {
+        list->C++;
         return NULL;
     }
     list->C++;
 
+    Node *nodeToRemove = list->head;
+
+    list->head = nodeToRemove->next;
+
+    if (list->length > 1)
+        list->head->prev = NULL;
+
+    list->C++;
+    list->M += 3;
+    
+    return nodeToRemove;
+}
+
+Node *removeTailNode(List *list)
+{
+    if (list->end == NULL)
+    {
+        list->C++;
+        return NULL;
+    }
+    list->C++;
+    
+    Node *nodeToRemove = list->end;
+
+    list->end = nodeToRemove->prev;
+    list->end->next = NULL;
+
+    list->M += 3;
+    return nodeToRemove;
+}
+
+Node *removeNodeInPosition(List *list, int position)
+{
+    Node *nodeToRemove;
+
+    if (list->length <= 1)
+    {
+        list->C++;
+        return removeHeadNode(list);
+    }
+    else if (list->length <= position)
+    {
+        list->C += 2;
+        return removeTailNode(list);
+    }
+    list->C += 2;
+
     nodeToRemove = movePointerToPosition(list, position);
 
-    aux = nodeToRemove->prev;
-    aux->next = nodeToRemove->next;
-    aux = aux->next;
-    aux->prev = nodeToRemove->prev;
-    list->M += 4;
-    list->length--;
+    nodeToRemove->prev->next = nodeToRemove->next;
+    nodeToRemove->next->prev = nodeToRemove->prev;
 
+    list->M += 3;
     return nodeToRemove;
+}
+
+Node *removeNode(List *list, int position)
+{
+    Node *removedNode;
+
+    switch (position)
+    {
+    case 0:
+        removedNode = removeHeadNode(list);
+        list->C++;
+        break;
+
+    case 1:
+        removedNode = removeTailNode(list);
+        list->C += 2;
+        break;
+    
+    default:
+        removedNode = removeNodeInPosition(list, position);
+        list->C += 2;
+        break;
+    }
+
+
+    list->length--;
+    return removedNode;
 }
 
 void printList(List *list)

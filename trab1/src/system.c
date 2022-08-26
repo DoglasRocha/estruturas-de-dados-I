@@ -13,7 +13,7 @@ Person *SysCreatePerson(void)
     return createPerson(name, rg);
 }
 
-void SysInsertNode(List *list, Node *node, int position)
+void SysInsertNode(List *list, int position)
 {
     Person *person = SysCreatePerson();
     Node *node = createNode(person);
@@ -27,17 +27,17 @@ void SysEvaluateOption(List *list, int option)
     switch (option)
     {
     case 1:
-        SysInsertNode(list, node, 0);
+        SysInsertNode(list, 0);
         break;
 
     case 2:
-        SysInsertNode(list, node, -1);
+        SysInsertNode(list, -1);
         break;
 
     case 3:
         printf("Em qual posição você deseja inserir o nó? ");
         scanf("%d", &position);
-        SysInsertNode(list, node, position);
+        SysInsertNode(list, position);
         break;
     
     default:

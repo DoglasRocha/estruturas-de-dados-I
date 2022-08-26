@@ -22,14 +22,19 @@ int main(void)
     testNode2 = createNode(test2);
     testNode3 = createNode(test3);
 
-    insertNode(list, testNode, -1);
-    insertNode(list, testNode1, -1);
-    insertNode(list, testNode2, -1);
-    insertNode(list, testNode3, -1);
+    insertNode(list, testNode, 2);
+    insertNode(list, testNode1, 86);
+    insertNode(list, testNode2, 84);
+    insertNode(list, testNode3, 75);
+
+    removeNode(list, 0);
+    removeNode(list, 75);
+    removeNode(list, 75);
+    removeNode(list, 75);
 
     printList(list);
 
     freeList(list);
 
-    showMenu();
+    //showMenu();
 }
