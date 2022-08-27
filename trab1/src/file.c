@@ -34,7 +34,7 @@ void readFileAndInsertIntoList(List *list, char filename[])
     while(fgets(buffer, sizeof(buffer), file) != NULL)
     {
         name = strtok(buffer, ",");
-        rg = strtok(NULL, ",");
+        rg = strtok(NULL, "\n");
         //printf("%s %s\n", name, rg);
         //getchar();
         SysInsertNodeFromFile(list, name,  rg);

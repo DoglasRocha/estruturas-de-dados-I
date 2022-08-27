@@ -65,7 +65,7 @@ void SysSearchNode(List *list, char rg[], int *C, int *M)
 void SysEvaluateOption(List *list, int option)
 {
     int position, C, M;
-    char rg[8], filename[256];
+    char rg[9], filename[256];
     C = M = 0;
 
     switch (option)
@@ -100,7 +100,7 @@ void SysEvaluateOption(List *list, int option)
 
     case 7:
         printf("Qual RG você deseja procurar? ");
-        scanf("%s", rg);
+        scanf(" %s", rg);
         SysSearchNode(list, rg, &C, &M);
         break;
 
@@ -110,13 +110,13 @@ void SysEvaluateOption(List *list, int option)
 
     case 9:
         printf("Por favor, digite o nome do novo arquivo: ");
-        scanf("%s", filename);
+        scanf(" %s", filename);
         writeFileFromList(list, filename);
         break;
     
     case 10:
         printf("Por favor, digite o nome do arquivo a ser lido: ");
-        scanf("%s", filename);
+        scanf(" %s", filename);
         readFileAndInsertIntoList(list, filename);
         break;
 
