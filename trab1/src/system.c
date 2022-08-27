@@ -1,6 +1,7 @@
 #include "../includes/list.h"
 #include "../includes/node.h"
 #include "../includes/person.h"
+#include "../includes/file.h"
 #include <stdio.h>
 
 void SysPrintNodeInfo(List *list, Node *node, int position, int *C, int *M)
@@ -39,6 +40,14 @@ void SysInsertNode(List *list, int position, int *C, int *M)
     SysPrintNodeInfo(list, node, position, C, M);
 }
 
+void SysInsertNodeFromFile(List *list, char name[], char rg[])
+{
+    int C, M;
+    Person *person = createPerson(rg, name);
+    Node *node = createNode(person);
+    insertNode(list, node, -1, &C, &M);
+}
+
 void SysRemoveNode(List *list, int position, int *C, int *M)
 {
     Node *removedNode = removeNode(list, position, C, M);
@@ -56,7 +65,7 @@ void SysSearchNode(List *list, char rg[], int *C, int *M)
 void SysEvaluateOption(List *list, int option)
 {
     int position, C, M;
-    char rg[8];
+    char rg[8], filename[256];
     C = M = 0;
 
     switch (option)
@@ -100,10 +109,15 @@ void SysEvaluateOption(List *list, int option)
         break;
 
     case 9:
+        printf("Por favor, digite o nome do novo arquivo: ");
+        scanf("%s", filename);
+        writeFileFromList(list, filename);
         break;
     
     case 10:
-
+        printf("Por favor, digite o nome do arquivo a ser lido: ");
+        scanf("%s", filename);
+        readFileAndInsertIntoList(list, filename);
         break;
 
     case 11:

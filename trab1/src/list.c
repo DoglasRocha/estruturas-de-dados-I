@@ -228,14 +228,14 @@ Node *searchNode(List *list, char rg[], int *position, int *C, int *M)
     int i;
 
     for (node = list->head, i = 0; 
-         node->next != NULL;
+         node != NULL;
          node = node->next, i++, (*C) += 2, (*M)++)
     {
-        if (!strcmp(node->person->rg, rg))
-        {
-            *position = i;
-            return node;       
-        }
+            if (!strcmp(node->person->rg, rg))
+            {
+                *position = i;
+                return node;       
+            }
     }
 
     *position = i;
