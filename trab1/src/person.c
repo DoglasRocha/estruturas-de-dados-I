@@ -7,9 +7,11 @@ Person *createPerson(char *rg, char *name)
 {
     Person *person = malloc(sizeof(Person));
 
-    strcpy(person->rg, rg); 
+    sprintf(person->rg, "%s", rg);
+    //strcpy(person->rg, rg); 
     person->rg[8] = '\0';
-    strcpy(person->name, name);
+    sprintf(person->name, "%s", name);
+    //strcpy(person->name, name);
     person->name[30] = '\0';
 
     return person;

@@ -23,7 +23,7 @@ void writeFileFromList(List *list, char filename[])
 void readFileAndInsertIntoList(List *list, char filename[])
 {
     FILE *file = fopen(filename, "r");
-    char *name, *rg, buffer[40];
+    char *name, *rg, buffer[128];
 
     if (file == NULL) 
     {
@@ -35,8 +35,6 @@ void readFileAndInsertIntoList(List *list, char filename[])
     {
         name = strtok(buffer, ",");
         rg = strtok(NULL, "\n");
-        //printf("%s %s\n", name, rg);
-        //getchar();
         SysInsertNodeFromFile(list, name,  rg);
     }
 

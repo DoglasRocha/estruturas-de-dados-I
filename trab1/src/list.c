@@ -231,11 +231,11 @@ Node *searchNode(List *list, char rg[], int *position, int *C, int *M)
          node != NULL;
          node = node->next, i++, (*C) += 2, (*M)++)
     {
-            if (!strcmp(node->person->rg, rg))
-            {
-                *position = i;
-                return node;       
-            }
+        if (!strcmp(node->person->rg, rg))
+        {
+            *position = i;
+            return node;       
+        }
     }
 
     *position = i;
@@ -245,6 +245,7 @@ Node *searchNode(List *list, char rg[], int *position, int *C, int *M)
 
 void printList(List *list)
 {
-    for (Node *aux = list->head; aux != NULL; aux = aux->next)
-        printf("Nome: %s, RG: %s\n", aux->person->name, aux->person->rg);
+    int i = 0;
+    for (Node *aux = list->head; aux != NULL; aux = aux->next, i++)
+        printf("Nome: %s, RG: %s, posição: %d\n", aux->person->name, aux->person->rg, i);
 }
