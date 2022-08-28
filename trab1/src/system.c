@@ -5,7 +5,7 @@
 #include <time.h>
 #include <stdio.h>
 
-double calcTimeDiffInMicroseconds(clock_t start, clock_t end) 
+double calcTimeDiffInMiliseconds(clock_t start, clock_t end) 
 {
     double diff = ((double) end - (double) start) / ((double) CLOCKS_PER_SEC) * 1000; 
 
@@ -33,7 +33,7 @@ void SysPrintNodeInfo(List *list, Node *node, int position, int *C, int *M, cloc
     else
         printf("Nó não encontrado, ");
 
-    printf("C: %d, M: %d, Runtime: %.3fms \n", *C, *M, calcTimeDiffInMicroseconds(start, end));
+    printf("C: %d, M: %d, Runtime: %.3fms \n", *C, *M, calcTimeDiffInMiliseconds(start, end));
 }
 
 Person *SysCreatePerson(void)
