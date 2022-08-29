@@ -19,6 +19,7 @@ void freeList(List *list)
     for (int i = 0; i < list->length; i++)
         freePerson(list->array[i]);
         
+    free(list->array);
     free(list);
 }
 
@@ -30,7 +31,7 @@ void insertPersonInEmptyList(List *list, Person *person, int *C, int *M)
 
 void increaseListSize(List *list, int *C, int *M)
 {
-    list->array = realloc(list->array, sizeof(Person *) * list->length + 1);
+    list->array = realloc(list->array, sizeof(Person *) * (list->length + 1));
     (*M)++;
 }
 
@@ -219,7 +220,6 @@ Person *removePerson(List *list, int position, int *C, int *M)
 
 Person *searchPerson(List *list, char rg[], int *position, int *C, int *M)
 {
-    Person *person;
     int i;
 
     for (i = 0; i < list->length; i++, (*C) += 2, (*M)++)
@@ -227,7 +227,7 @@ Person *searchPerson(List *list, char rg[], int *position, int *C, int *M)
         if (!strcmp(list->array[i]->rg, rg))
         {
             *position = i;
-            return person;       
+            return list->array[i];       
         }
     }
 
