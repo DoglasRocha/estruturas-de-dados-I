@@ -21,7 +21,7 @@ void SysPrintNodeInfo(List *list, Node *node, int position, int *C, int *M, cloc
         index = 0;
 
     else if (position == -1 || position > list->length)
-        index = list->length;
+        index = list->length - 1;
 
     else
         index = position;
@@ -31,7 +31,7 @@ void SysPrintNodeInfo(List *list, Node *node, int position, int *C, int *M, cloc
     if (node != NULL)
         printf("Nome: %s, RG: %s, posição: %d, ", node->person->name, node->person->rg, position);
     else
-        printf("Nó não encontrado, ");
+        printf("RG não encontrado, ");
 
     printf("C: %d, M: %d, Runtime: %.3fms \n", *C, *M, calcTimeDiffInMiliseconds(start, end));
 }

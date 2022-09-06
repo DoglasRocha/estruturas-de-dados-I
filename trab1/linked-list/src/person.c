@@ -7,8 +7,8 @@ Person *createPerson(char *rg, char *name)
 {
     Person *person = malloc(sizeof(Person));
 
-    sprintf(person->rg, "%s", rg);
-    sprintf(person->name, "%s", name);
+    sprintf(person->rg, "%s", rg ? rg : "");
+    sprintf(person->name, "%s", name ? name : "");
 
     return person;
 }
