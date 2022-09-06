@@ -1,9 +1,9 @@
 #include <string>
 #include  "../includes/person.hpp"
 
-Person::Person(std::string nome_, long rg_)
+Person::Person(std::string name_, long rg_)
 {
-    nome = nome;
+    name = name_;
     rg = rg_;
 }
 
