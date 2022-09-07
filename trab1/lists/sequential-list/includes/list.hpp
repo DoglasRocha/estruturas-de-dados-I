@@ -22,4 +22,10 @@ class SequentialList
         T removeListHead(int *C, int *M);
         T removeListTail(int *C, int *M);
         T removeAtIndex(int index, int *C, int *M);
+        void increaseListSize(int *C, int *M);
+        void moveOneIndexUp(int indexToMove, int *C, int *M);
+        void increaseListSizeAndMoveOneIndexUp(int indexToMove, int *C, int *M);
+        void moveOneIndexDown(int indexToMove, int *C, int *M);
+        void decreaseListSize(int *C, int *M);
+        void moveOneIndexDownAndDecreaseListSize(int indexToMove, int *C, int *M);
 };
