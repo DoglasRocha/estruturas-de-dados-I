@@ -1,10 +1,12 @@
 #include "../includes/list.hpp"
+#include <stdlib.h>
+#include <iostream>
 
 template <class T>
 SequentialList<T>::SequentialList()
 {
     length = 0;
-    array = new T[1];
+    array = static_cast<T *>(malloc(sizeof(T)));
 }
 
 template <class T>
@@ -13,10 +15,10 @@ SequentialList<T>::~SequentialList()
     if (array)
     {
         for (int i = 0; i < length; i++)
-            if (array[i]) 
-                delete(array[i]);
+            if (array[i] != NULL) 
+                delete array[i];
 
-        delete array;
+        free(array);
     }
 }
 
@@ -42,6 +44,8 @@ SequentialList<T> *SequentialList<T>::insert(T data, int index, int *C, int *M)
     }
 
     length++;
+
+    return this;
 }
 
 template <class T>
@@ -49,7 +53,7 @@ T SequentialList<T>::remove(int index, int *C, int *M)
 {
     T removedData;
 
-    switch (position)
+    switch (index)
     {
     case 0:
         removedData = removeListHead(C, M);
@@ -74,7 +78,7 @@ T SequentialList<T>::remove(int index, int *C, int *M)
 template <class T>
 T SequentialList<T>::getAt(int index, int *C, int *M)
 {
-    return array[i];
+    return array[index];
 }
 
 template <class T>
@@ -128,7 +132,7 @@ void SequentialList<T>::insertAtIndex(T data, int index, int *C, int *M)
 
     else
     {
-        increaseListSizeAndMoveOneIndexUp(0, C, M);
+        increaseListSizeAndMoveOneIndexUp(index, C, M);
         array[index] = data;
         (*M)++;
         (*C) += 2;
@@ -141,7 +145,7 @@ T SequentialList<T>::removeListHead(int *C, int *M)
     if (length == 0)
     {
         (*C)++;
-        return nullptr;
+        return NULL;
     }
     (*C)++;
 
@@ -149,7 +153,7 @@ T SequentialList<T>::removeListHead(int *C, int *M)
     moveOneIndexDownAndDecreaseListSize(0, C, M);
     (*M)++;
 
-    return T;
+    return data;
 }
 
 template <class T>
@@ -158,7 +162,7 @@ T SequentialList<T>::removeListTail(int *C, int *M)
     if (length == 0)
     {
         (*C)++;
-        return nullptr;
+        return NULL;
     }
     (*C)++;
     
@@ -197,24 +201,16 @@ T SequentialList<T>::removeAtIndex(int index, int *C, int *M)
 template <class T>
 void SequentialList<T>::increaseListSize(int *C, int *M)
 {
-    T aux = new T[length + 1];
-
-    for (int i = 0; i < length; i++, (*C)++, (*M) += 3)
-    {
-        aux[i] = array[i],
-        array[i] = nullptr;
-    }
-
-    delete array;
-    array = aux;
+    array = static_cast<T *>(realloc(array, sizeof(T) * (length + 2)));
     (*M)++;
 }
 
 template <class T>
 void SequentialList<T>::moveOneIndexUp(int indexToMove, int *C, int *M)
 {
-    for (int i = length - 1; i >= indexToMove; i--, (*C)++, (*M) += 2)
+    for (int i = length; i > indexToMove; i--, (*C)++, (*M) += 2)
         array[i] = array[i - 1];
+    
 }
 
 template <class T>
@@ -234,15 +230,7 @@ void SequentialList<T>::moveOneIndexDown(int indexToMove, int *C, int *M)
 template <class T>
 void SequentialList<T>::decreaseListSize(int *C, int *M)
 {
-    T aux = new T[length - 1];
-    for (int i = 0; i < length - 1; i++, (*C)++, (*M) += 3)
-    {
-        aux[i] = array[i],
-        array[i] = nullptr;
-    }
-
-    delete array;
-    array = aux;
+    array = static_cast<T *>(realloc(array, sizeof(T) * (length + 1)));
     (*M)++;
 }
 

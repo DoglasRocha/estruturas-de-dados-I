@@ -3,6 +3,8 @@
 #include <time.h>
 #include "../linked-list/includes/list.hpp"
 #include "../linked-list/src/list.cpp"
+#include "../sequential-list/includes/list.hpp"
+#include "../sequential-list/src/list.cpp"
 #include "../common/includes/person.hpp"
 
 class System
@@ -15,7 +17,7 @@ class System
     private:
         int option;
         clock_t start;
-        LinkedList<Person *> *linkedList;
+        SequentialList<Person *> *linkedList;
 
         double calcRuntime(clock_t start);
         void printBasicMenu();

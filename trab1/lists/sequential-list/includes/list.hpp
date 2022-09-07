@@ -14,7 +14,7 @@ class SequentialList
         T getAt(int index, int *C, int *M);
 
     private:
-        T array;
+        T *array;
         void insertInEmptyList(T data, int *C, int *M);
         void insertAtListHead(T data, int *C, int *M);
         void insertAtListTail(T data, int *C, int *M);

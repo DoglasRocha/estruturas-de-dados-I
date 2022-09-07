@@ -2,12 +2,14 @@
 #include <fstream>
 #include "../includes/system.hpp"
 #include "../common/includes/person.hpp"
+#include "../linked-list/includes/list.hpp"
+#include "../sequential-list/includes/list.hpp"
 using std::cout;
 using std::cin;
 
 System::System()
 {
-    linkedList = new LinkedList<Person *>();
+    linkedList = new SequentialList<Person *>();
     option = -1;
 
     run();
@@ -148,7 +150,7 @@ void System::printData(Person *person, int index, int *C, int *M)
 
     if (person != nullptr)
         cout << "Nome: " << person->name << ", RG: " << person->rg
-             << " posição: " << pIndex << " ";
+             << " posição: " << pIndex << ", ";
     else
         cout <<"RG não encontrado, ";
 
