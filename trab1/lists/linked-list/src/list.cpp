@@ -1,12 +1,13 @@
 #include "../includes/list.hpp"
 #include "../includes/node.hpp"
+#include "node.cpp"
 #include <iostream>
 
 template <class T> 
 LinkedList<T>::LinkedList()
 {
-    head = tail = nullptr;
-    length = 0;
+    head = tail = auxPointer = nullptr;
+    length = auxPointerIndex = 0;
 }
 
 template <class T> 
@@ -17,7 +18,7 @@ LinkedList<T>::~LinkedList()
 }
 
 template <class T> 
-LinkedList<T> *LinkedList<T>::insert(T *data, int index, int *C, int *M)
+LinkedList<T> *LinkedList<T>::insert(T data, int index, int *C, int *M)
 {
     Node<T> *node = new Node<T>(data);
 
@@ -72,40 +73,9 @@ void LinkedList<T>::remove(int index, int *C, int *M)
 }
 
 template <class T> 
-T LinkedList<T>::search(long rg, int *foundAt, int *C, int *M)
-{
-    Node<T> *aux;
-    int i;
-
-    for (aux = head, i = 0; 
-         aux != nullptr; 
-         aux = aux->next, i++, (*C) += 2, (*M)++)
-    {
-        if (aux->data->rg == rg)
-        {
-            *foundAt = i;
-            return aux->data;
-        }
-    }
-
-    *foundAt = i;
-    return nullptr;
-}
-
-template <class T> 
-void LinkedList<T>::print()
-{
-    int i = 0;
-    for (Node<T> *aux = head; aux != nullptr; aux = aux->next, i++)
-        std::cout << "Nome: " << aux->data->name << ", RG: " << aux->data->rg 
-            << ", posição: " << i << "\n";
-}
-
-
-template <class T> 
 void LinkedList<T>::insertInEmptyList(Node<T> *node, int *C, int *M)
 {
-    head = tail = node,
+    head = tail = auxPointer = node,
     node->prev = node->next = nullptr,
     (*M) += 4;
 }
@@ -132,35 +102,163 @@ void LinkedList<T>::insertAtListHead(Node<T> *node, int *C, int *M)
 template <class T> 
 void LinkedList<T>::insertAtListTail(Node<T> *node, int *C, int *M)
 {
-    
+    if (length == 0)
+        insertInEmptyList(node, C, M);
+
+    else        
+    {
+        tail->next = node;
+        node->prev = tail;
+        node->next = nullptr;
+        tail = node;
+        (*M) += 4;
+    }
+
+    (*C)++;
 }
 
 template <class T> 
 void LinkedList<T>::insertAtIndex(Node<T> *node, int index, int *C, int *M)
 {
+    Node<T> *aux;
 
+    if (length == 0)
+        insertInEmptyList(node, C, M),
+        (*C)++;
+    
+
+    else if (length <= index)
+        insertAtListTail(node, C, M),
+        (*C) += 2;
+
+    else
+    {
+        aux = getAtIndex(index, C, M);
+
+        node->prev = aux->prev;
+        aux->prev->next = node; 
+        node->next = aux;
+        aux->prev = node;
+        (*M) += 4;
+        (*C) += 2;
+    }
 }
 
 template <class T> 
 Node<T> *LinkedList<T>::getAtIndex(int index, int *C, int *M)
 {
+    int indexDelta = index - auxPointerIndex;
+    int diffToBorder;
 
+    if (indexDelta >= 0)
+    {
+        diffToBorder = length - index;
+        if (indexDelta <= diffToBorder)
+        {
+            (*C)++;
+
+            while (auxPointerIndex != index)
+                auxPointer = auxPointer->next,
+                auxPointerIndex++,
+                (*C)++, (*M)++;
+
+            return auxPointer;
+        }
+        (*C)++;
+
+        for (
+            auxPointerIndex = length -1, auxPointer = tail;
+            auxPointerIndex != index;
+            auxPointer = auxPointer->prev, auxPointerIndex--, (*C)++, (*M)++
+        );
+
+        return auxPointer;
+    }  
+    (*C)++;
+
+    if (-index > indexDelta)
+    {
+        (*C)++;
+        for (
+            auxPointerIndex = 0, auxPointer = head;
+            auxPointerIndex != index;
+            auxPointer = auxPointer->next, auxPointerIndex++, (*C)++, (*M)++
+        )
+
+        return auxPointer;
+    }
+    (*C)++;
+
+    while (auxPointerIndex != index)
+        auxPointer = auxPointer->prev,
+        auxPointerIndex--,
+        (*C)++, (*M)++;
+
+    return auxPointer;
 }
 
 template <class T> 
-Node<T> *LinkedList<T>::removeHeadNode(int *C, int *M)
+Node<T> *LinkedList<T>::removeListHead(int *C, int *M)
 {
+    if (head == nullptr)
+    {
+        (*C)++;
+        return nullptr;
+    }
+    (*C)++;
 
+    Node<T> *nodeToRemove = head;
+
+    head = nodeToRemove->next;
+
+    if (head) head->prev = nullptr;
+    (*C)++;
+    (*M) += 3;
+    
+    return nodeToRemove;
 }
 
 template <class T> 
-Node<T> *LinkedList<T>::removeTailNode(int *C, int *M)
+Node<T> *LinkedList<T>::removeListTail(int *C, int *M)
 {
+    if (tail == nullptr)
+    {
+        (*C)++;
+        return nullptr;
+    }
+    (*C)++;
+    
+    Node<T> *nodeToRemove = tail;
 
+    tail = nodeToRemove->prev;
+    tail->next = nullptr;
+
+    (*M) += 3;
+    return nodeToRemove;
 }
 
 template <class T> 
 Node<T> *LinkedList<T>::removeAtIndex(int index, int *C, int *M)
 {
+    Node<T> *nodeToRemove;
 
+    if (length <= 1)
+    {
+        (*C)++;
+        return removeListHead(C, M);
+    }
+    else if (length - 1 <= index)
+    {
+        (*C) += 2;
+        return removeTailNode(C, M);
+    }
+    (*C) += 2;
+
+    nodeToRemove = getAtIndex(index, C, M);
+
+    nodeToRemove->prev->next = nodeToRemove->next;
+    nodeToRemove->next->prev = nodeToRemove->prev;
+
+    (*M) += 3;
+    return nodeToRemove;
 }
