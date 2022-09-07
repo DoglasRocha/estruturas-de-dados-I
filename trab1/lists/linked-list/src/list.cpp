@@ -46,19 +46,20 @@ LinkedList<T> *LinkedList<T>::insert(T data, int index, int *C, int *M)
 }
 
 template <class T> 
-void LinkedList<T>::remove(int index, int *C, int *M)
+T LinkedList<T>::remove(int index, int *C, int *M)
 {
     Node<T> *removedNode;
+    T data;
 
     switch(index) 
     {
     case 0:
-        removedNode = removeHeadNode(C, M);
+        removedNode = removeListHead(C, M);
         (*C)++;
         break;
 
     case -1:
-        removedNode = removeTailNode(C, M);
+        removedNode = removeListTail(C, M);
         (*C) += 2;
         break;
 
@@ -68,8 +69,11 @@ void LinkedList<T>::remove(int index, int *C, int *M)
         break;
     }
 
+    data = removedNode->data;
     length--;
+    (*M) += 2;
     delete removedNode;
+    return data;
 }
 
 template <class T>

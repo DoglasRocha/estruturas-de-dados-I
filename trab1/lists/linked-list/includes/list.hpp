@@ -13,7 +13,7 @@ class LinkedList
         LinkedList();
         ~LinkedList();
         LinkedList<T> *insert(T data, int index, int *C, int *M);
-        void remove(int index, int *C, int *M);
+        T remove(int index, int *C, int *M);
         T getAt(int index, int *C, int *M);
 
     private:

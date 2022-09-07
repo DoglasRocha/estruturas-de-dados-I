@@ -10,5 +10,5 @@ Node<T>::Node(T data_)
 template <class T>
 Node<T>::~Node()
 {
-    delete data;
+    if (data) delete data;
 }
