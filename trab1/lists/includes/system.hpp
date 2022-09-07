@@ -18,13 +18,16 @@ class System
         LinkedList<Person *> *linkedList;
 
         double calcRuntime(clock_t start);
-        int printBasicMenu();
-        int printCompleteMenu();
-        void evaluateMenuOption(int option);
+        void printBasicMenu();
+        void printCompleteMenu();
+        void evaluateMenuOption();
         void printData(Person *person, int index, int *C, int *M);
+        Person *createPersonManually();
         Person *createPersonFromFile(std::string name, long rg);
         void insertIntoListManually(int index, int *C, int *M);
         void insertIntoListFromFile(std::string name, long rg);
         void removeFromList(int index, int *C, int *M);
         void searchInList(long rg, int *C, int *M);
+        void writeFileFromList(std::string filename);
+        void readFileAndInsertIntoList(std::string filename);
 };
