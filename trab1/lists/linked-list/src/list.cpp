@@ -72,6 +72,12 @@ void LinkedList<T>::remove(int index, int *C, int *M)
     delete removedNode;
 }
 
+template <class T>
+T LinkedList<T>::getAt(int index, int *C, int *M)
+{
+    return getNodeAt(index, C, M)->data;
+}
+
 template <class T> 
 void LinkedList<T>::insertInEmptyList(Node<T> *node, int *C, int *M)
 {
@@ -133,7 +139,7 @@ void LinkedList<T>::insertAtIndex(Node<T> *node, int index, int *C, int *M)
 
     else
     {
-        aux = getAtIndex(index, C, M);
+        aux = getNodeAt(index, C, M);
 
         node->prev = aux->prev;
         aux->prev->next = node; 
@@ -145,7 +151,7 @@ void LinkedList<T>::insertAtIndex(Node<T> *node, int index, int *C, int *M)
 }
 
 template <class T> 
-Node<T> *LinkedList<T>::getAtIndex(int index, int *C, int *M)
+Node<T> *LinkedList<T>::getNodeAt(int index, int *C, int *M)
 {
     int indexDelta = index - auxPointerIndex;
     int diffToBorder;
@@ -250,11 +256,11 @@ Node<T> *LinkedList<T>::removeAtIndex(int index, int *C, int *M)
     else if (length - 1 <= index)
     {
         (*C) += 2;
-        return removeTailNode(C, M);
+        return removeListTail(C, M);
     }
     (*C) += 2;
 
-    nodeToRemove = getAtIndex(index, C, M);
+    nodeToRemove = getNodeAt(index, C, M);
 
     nodeToRemove->prev->next = nodeToRemove->next;
     nodeToRemove->next->prev = nodeToRemove->prev;
