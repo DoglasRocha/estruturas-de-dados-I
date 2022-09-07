@@ -13,8 +13,12 @@ LinkedList<T>::LinkedList()
 template <class T> 
 LinkedList<T>::~LinkedList()
 {
-    for (T *aux = head; aux != nullptr; aux = aux->next)
-        delete aux;
+    Node<T> *tmp, *aux;
+    for (tmp = head; tmp != nullptr; tmp = aux)
+    {
+        aux = tmp->next;
+        delete tmp;
+    }
 }
 
 template <class T> 
@@ -70,8 +74,9 @@ T LinkedList<T>::remove(int index, int *C, int *M)
     }
 
     data = removedNode->data;
+    removedNode->data = nullptr;
     length--;
-    (*M) += 2;
+    (*M) += 3;
     delete removedNode;
     return data;
 }
@@ -241,7 +246,10 @@ Node<T> *LinkedList<T>::removeListTail(int *C, int *M)
     Node<T> *nodeToRemove = tail;
 
     tail = nodeToRemove->prev;
-    tail->next = nullptr;
+    if (tail) 
+        tail->next = nullptr;
+    else 
+        head = nullptr;
 
     (*M) += 3;
     return nodeToRemove;

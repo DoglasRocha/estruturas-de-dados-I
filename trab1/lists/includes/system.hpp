@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <time.h>
-#include "linked-list/includes/list.hpp"
-#include "linked-list/src/list.cpp"
-#include "common/includes/person.hpp"
+#include "../linked-list/includes/list.hpp"
+#include "../linked-list/src/list.cpp"
+#include "../common/includes/person.hpp"
 
 class System
 {

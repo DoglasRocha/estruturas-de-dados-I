@@ -21,10 +21,12 @@ System::~System()
 void System::run()
 {
     printCompleteMenu();
+    evaluateMenuOption();
+
     while (option != 11)
     {
-        evaluateMenuOption();
         printBasicMenu();
+        evaluateMenuOption();
     }
 }
 
@@ -122,7 +124,7 @@ void System::evaluateMenuOption()
     
     case 10:
         cout << "Por favor, digite o nome do arquivo a ser lido: ";
-        scanf(" %s", filename);
+        cin >> filename;
         readFileAndInsertIntoList(filename);
         break;
 
@@ -135,7 +137,7 @@ void System::printData(Person *person, int index, int *C, int *M)
 {
     int pIndex;
 
-    if (index == 0)
+    if (index <= 0 || linkedList->length == 0)
         pIndex = 0;
 
     else if (index == -1 || index > linkedList->length)
@@ -201,11 +203,14 @@ void System::searchInList(long rg, int *C, int *M)
     start = clock();
     int i;
 
-    for (i = 0;
-         i < linkedList->length && linkedList->getAt(i, C, M)->rg != rg; 
-         i++, (*C)++, (*M) += 2);
-
-    printData(linkedList->getAt(i, C, M), i, C, M);
+    for (i = 0; i < linkedList->length; i++, (*C)++, (*M) += 2)
+        if (linkedList->getAt(i, C, M)->rg == rg)
+        {
+            printData(linkedList->getAt(i, C, M), i, C, M);
+            return;
+        }
+    
+    printData(nullptr, i, C, M);
 }   
 
 void System::writeFileFromList(std::string filename)
