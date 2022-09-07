@@ -6,7 +6,7 @@
 int main(void)
 {
     Person *test = new Person("Doglas", 12345678);
-    Node<Person> *node = new Node<Person>(test);
+    Node<Person *> *node = new Node<Person *>(test);
 
     std::cout << node->data->name << ", " << node->data->rg << "\n";
 }

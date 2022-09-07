@@ -1,7 +1,7 @@
 #include "../includes/node.hpp"
 
 template <class T> 
-Node<T>::Node(T *data_)
+Node<T>::Node(T data_)
 {
     data = data_;
     next = prev = nullptr;

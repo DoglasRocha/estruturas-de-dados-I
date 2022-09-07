@@ -72,7 +72,7 @@ void LinkedList<T>::remove(int index, int *C, int *M)
 }
 
 template <class T> 
-T *LinkedList<T>::search(long rg, int *foundAt, int *C, int *M)
+T LinkedList<T>::search(long rg, int *foundAt, int *C, int *M)
 {
     Node<T> *aux;
     int i;
@@ -132,7 +132,7 @@ void LinkedList<T>::insertAtListHead(Node<T> *node, int *C, int *M)
 template <class T> 
 void LinkedList<T>::insertAtListTail(Node<T> *node, int *C, int *M)
 {
-
+    
 }
 
 template <class T> 

@@ -5,8 +5,8 @@ class Node
 {
     public:
         Node *next, *prev;
-        T *data;
+        T data;
 
-        Node(T *data_=nullptr);
+        Node(T data_=nullptr);
         ~Node();
 };

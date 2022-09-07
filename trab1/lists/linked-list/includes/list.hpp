@@ -14,7 +14,7 @@ class LinkedList
         ~LinkedList();
         LinkedList<T> *insert(T *data, int index, int *C, int *M);
         void remove(int index, int *C, int *M);
-        T *search(long rg, int *foundAt, int *C, int *M);
+        T search(long rg, int *foundAt, int *C, int *M);
         void print();
 
     private:
