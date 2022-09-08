@@ -1,8 +1,9 @@
 #pragma once
 #include "../../common/includes/person.hpp"
+#include "../../includes/list.hpp"
 
 template <class T>
-class SequentialList
+class SequentialList : public List<T>
 {
     public:
         int length;

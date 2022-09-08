@@ -1,13 +1,12 @@
 #pragma once
 #include "node.hpp"
 #include "../../common/includes/person.hpp"
+#include "../../includes/list.hpp"
 
 template <class T>
-class LinkedList
+class LinkedList : public List<T>
 {
     public:
-        Node<T> *head;
-        Node<T> *tail;
         int length;
 
         LinkedList();
@@ -17,7 +16,7 @@ class LinkedList
         T getAt(int index, int *C, int *M);
 
     private:
-        Node<T> *auxPointer;
+        Node<T> *head, *tail, *auxPointer;
         int auxPointerIndex;
 
         void insertInEmptyList(Node<T> *node, int *C, int *M);

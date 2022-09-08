@@ -1,4 +1,4 @@
-#include "../includes/list.hpp"
+#include "../includes/sequential-list.hpp"
 #include <stdlib.h>
 #include <iostream>
 
