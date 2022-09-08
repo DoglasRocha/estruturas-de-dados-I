@@ -2,3 +2,5 @@
 vgcore*
 *.zip
 test-files/
+main
+*.bin
