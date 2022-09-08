@@ -79,7 +79,7 @@ void System::selectListType()
     if (option == 1) 
         list = new LinkedList<Person *>();
     else
-        list = new SequentialList<Person *>();
+        list = new SequentialList<Person *>(); 
 
 
 }
