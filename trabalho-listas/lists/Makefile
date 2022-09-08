@@ -3,4 +3,5 @@ all := main.cpp $(wildcard ./src/*.cpp) $(wildcard ./linked-list/src/*.cpp) $(wi
 main: $(all)
 	g++ -o main $(all)
 
-
+clean:
+	rm -f main
