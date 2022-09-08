@@ -7,17 +7,16 @@ template <class T>
 class LinkedList : public List<T>
 {
     public:
-        int length;
-
         LinkedList();
         ~LinkedList();
         LinkedList<T> *insert(T data, int index, int *C, int *M);
         T remove(int index, int *C, int *M);
         T getAt(int index, int *C, int *M);
+        int getLength();
 
     private:
         Node<T> *head, *tail, *auxPointer;
-        int auxPointerIndex;
+        int length, auxPointerIndex;
 
         void insertInEmptyList(Node<T> *node, int *C, int *M);
         void insertAtListHead(Node<T> *node, int *C, int *M);

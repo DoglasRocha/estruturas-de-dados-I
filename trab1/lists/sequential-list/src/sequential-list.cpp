@@ -82,6 +82,12 @@ T SequentialList<T>::getAt(int index, int *C, int *M)
 }
 
 template <class T>
+int SequentialList<T>::getLength()
+{
+    return length;
+}
+
+template <class T>
 void SequentialList<T>::insertInEmptyList(T data, int *C, int *M)
 {
     array[0] = data;

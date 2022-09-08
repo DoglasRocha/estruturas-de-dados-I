@@ -6,16 +6,17 @@ template <class T>
 class SequentialList : public List<T>
 {
     public:
-        int length;
-
         SequentialList();
         ~SequentialList();
         SequentialList<T> *insert(T data, int index, int *C, int *M);
         T remove(int index, int *C, int *M);
         T getAt(int index, int *C, int *M);
+        int getLength();
 
     private:
+        int length;
         T *array;
+        
         void insertInEmptyList(T data, int *C, int *M);
         void insertAtListHead(T data, int *C, int *M);
         void insertAtListTail(T data, int *C, int *M);

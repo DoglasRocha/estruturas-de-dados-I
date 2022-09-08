@@ -87,6 +87,12 @@ T LinkedList<T>::getAt(int index, int *C, int *M)
     return getNodeAt(index, C, M)->data;
 }
 
+template <class T>
+int LinkedList<T>::getLength()
+{
+    return length;
+}
+
 template <class T> 
 void LinkedList<T>::insertInEmptyList(Node<T> *node, int *C, int *M)
 {

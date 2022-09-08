@@ -1,10 +1,8 @@
 #pragma once
 #include <string>
 #include <time.h>
-#include "../linked-list/includes/list.hpp"
-#include "../linked-list/src/list.cpp"
-#include "../sequential-list/includes/list.hpp"
-#include "../sequential-list/src/list.cpp"
+#include "list.hpp"
+#include "../linked-list/includes/linked-list.hpp"
 #include "../common/includes/person.hpp"
 
 class System
@@ -17,10 +15,11 @@ class System
     private:
         int option;
         clock_t start;
-        SequentialList<Person *> *linkedList;
+        List<Person *> *list;
 
         double calcRuntime(clock_t start);
         void printBasicMenu();
+        void selectListType();
         void printCompleteMenu();
         void evaluateMenuOption();
         void printData(Person *person, int index, int *C, int *M);

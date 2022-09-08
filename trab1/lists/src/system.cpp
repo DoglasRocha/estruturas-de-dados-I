@@ -2,14 +2,17 @@
 #include <fstream>
 #include "../includes/system.hpp"
 #include "../common/includes/person.hpp"
-#include "../linked-list/includes/list.hpp"
-#include "../sequential-list/includes/list.hpp"
+#include "../linked-list/includes/linked-list.hpp"
+#include "../linked-list/src/linked-list.cpp"
+#include "../sequential-list/includes/sequential-list.hpp"
+#include "../sequential-list/src/sequential-list.cpp"
+#include "../includes/list.hpp"
 using std::cout;
 using std::cin;
 
 System::System()
 {
-    linkedList = new SequentialList<Person *>();
+    list = nullptr;
     option = -1;
 
     run();
@@ -17,7 +20,7 @@ System::System()
 
 System::~System()
 {
-    delete linkedList;
+    delete list;
 }
 
 void System::run()
@@ -59,12 +62,35 @@ void System::printBasicMenu()
         printBasicMenu();
 }
 
+void System::selectListType()
+{
+    cout << "Você deseja usar uma lista encadeada ou sequencial?\n" <<
+            "(1) Encadeada\n" <<
+            "(2) Sequencial\n";
+
+    cin >> option;
+
+    if (option != 1 && option != 2)
+    {
+        cout << "Opção inválida\n";
+        selectListType();
+    }
+
+    if (option == 1) 
+        list = new LinkedList<Person *>();
+    else
+        list = new SequentialList<Person *>();
+
+
+}
+
 void System::printCompleteMenu()
 {
     cout << "TRABALHO 1 - LISTA DE CLIENTES\n";
     cout << "==============================\n";
     cout << "© by Doglas Rocha\n\n\n\n";
 
+    selectListType();
     printBasicMenu();
 }
 
@@ -112,9 +138,9 @@ void System::evaluateMenuOption()
         break;
 
     case 8:
-        for (int i = 0; i < linkedList->length; i++)
-            cout << "Nome: " << linkedList->getAt(i, &C, &M)->name << ", "
-                 << "RG: " << linkedList->getAt(i, &C, &M)->rg << ", "
+        for (int i = 0, l = list->getLength(); i < l; i++)
+            cout << "Nome: " << list->getAt(i, &C, &M)->name << ", "
+                 << "RG: " << list->getAt(i, &C, &M)->rg << ", "
                  << "posição: " << i << "\n";
         break;
 
@@ -137,13 +163,13 @@ void System::evaluateMenuOption()
 
 void System::printData(Person *person, int index, int *C, int *M)
 {
-    int pIndex;
+    int pIndex, length = list->getLength();
 
-    if (index <= 0 || linkedList->length == 0)
+    if (index <= 0 || length == 0)
         pIndex = 0;
 
-    else if (index == -1 || index > linkedList->length)
-        pIndex = linkedList->length - 1;
+    else if (index == -1 || index > length)
+        pIndex = length - 1;
 
     else
         pIndex = index;
@@ -179,7 +205,7 @@ void System::insertIntoListManually(int index, int *C, int *M)
     start = clock();
 
     Person *person = createPersonManually();
-    linkedList->insert(person, index, C, M);
+    list->insert(person, index, C, M);
     printData(person, index, C, M);
 }
 
@@ -188,14 +214,14 @@ void System::insertIntoListFromFile(std::string name, long rg)
     int C, M;
 
     Person *person = createPersonFromFile(name, rg);
-    linkedList->insert(person, -1, &C, &M);
+    list->insert(person, -1, &C, &M);
 }
 
 void System::removeFromList(int index, int *C, int *M)
 {
     start = clock();
 
-    Person *person = linkedList->remove(index, C, M);
+    Person *person = list->remove(index, C, M);
     printData(person, index, C, M);
     delete person;
 }
@@ -203,12 +229,12 @@ void System::removeFromList(int index, int *C, int *M)
 void System::searchInList(long rg, int *C, int *M)
 {
     start = clock();
-    int i;
+    int i, l;
 
-    for (i = 0; i < linkedList->length; i++, (*C)++, (*M) += 2)
-        if (linkedList->getAt(i, C, M)->rg == rg)
+    for (i = 0, l = list->getLength(); i < l; i++, (*C)++, (*M) += 2)
+        if (list->getAt(i, C, M)->rg == rg)
         {
-            printData(linkedList->getAt(i, C, M), i, C, M);
+            printData(list->getAt(i, C, M), i, C, M);
             return;
         }
     
@@ -224,10 +250,10 @@ void System::writeFileFromList(std::string filename)
 
     if (file.is_open())
     {
-        for (int i = 0; i < linkedList->length; i++)
+        for (int i = 0; i < list->length; i++)
         {
-            name = linkedList->getAt(i, &C, &M)->name;
-            rg = linkedList->getAt(i, &C, &M)->rg;
+            name = list->getAt(i, &C, &M)->name;
+            rg = list->getAt(i, &C, &M)->rg;
             file << name << "," << rg << "\n";
         }
 
@@ -258,7 +284,7 @@ void System::readFileAndInsertIntoList(std::string filename)
             rg = std::stol(line.substr(commaPos+1, lineBreakPos));
 
             newPerson = createPersonFromFile(name, rg);
-            linkedList->insert(newPerson, -1, &C, &M);
+            list->insert(newPerson, -1, &C, &M);
         }
 
         file.close();
