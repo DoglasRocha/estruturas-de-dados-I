@@ -44,6 +44,9 @@ LinkedList<T> *LinkedList<T>::insert(T data, int index, int *C, int *M)
         break;
     }
 
+    if (index <= auxPointerIndex)
+        auxPointerIndex++;
+    
     length++;
 
     return this;
