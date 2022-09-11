@@ -181,7 +181,7 @@ void System::printData(Person *person, int index, int *C, int *M)
         cout <<"RG não encontrado, ";
 
     cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) 
-         << "ms \n";
+         << "s \n";
 }
 
 Person *System::createPersonManually()
@@ -268,10 +268,13 @@ void System::readFileAndInsertIntoList(std::string filename)
 {
     int C = 0, M = 0;
     size_t commaPos, lineBreakPos;
-    std::ifstream file(filename);
     std::string line, name;
     long rg;
     Person *newPerson;
+    double runtime;
+    start = clock();
+
+    std::ifstream file(filename);
 
     if (file.is_open())
     {
@@ -288,6 +291,8 @@ void System::readFileAndInsertIntoList(std::string filename)
         }
 
         file.close();
+        runtime = ((double) clock() - start) / CLOCKS_PER_SEC;
+        cout << "Tempo de leitura e armazenamento do arquivo: " << runtime << "s\n\n";
         return;
     }
 
