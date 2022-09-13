@@ -76,6 +76,7 @@ T LinkedList<T>::remove(int index, int *C, int *M)
         break;
     }
 
+    
     data = removedNode->data;
     removedNode->data = nullptr;
     length--;
@@ -115,7 +116,7 @@ void LinkedList<T>::insertAtListHead(Node<T> *node, int *C, int *M)
         node->next = head;
         head->prev = node;
         head = node; 
-        node->prev = NULL; 
+        node->prev = nullptr; 
 
         (*M) += 4;
     }
@@ -174,17 +175,16 @@ Node<T> *LinkedList<T>::getNodeAt(int index, int *C, int *M)
     int indexDelta = index - auxPointerIndex,
         diffToHead = index,
         diffToTail = length - 1 - index;
-    (*M) += 3;
 
-    if (diffToHead < indexDelta)
-        auxPointerIndex = 0,
+    if (-diffToHead > indexDelta)
         auxPointer = head,
+        auxPointerIndex = 0,
         indexDelta = index - auxPointerIndex,
         (*M) += 3;
 
     if (diffToTail < indexDelta)
-        auxPointerIndex = length -1,
         auxPointer = tail,
+        auxPointerIndex = length - 1,
         indexDelta = index - auxPointerIndex,
         (*M) += 3;
 
@@ -237,6 +237,7 @@ Node<T> *LinkedList<T>::removeListHead(int *C, int *M)
     head = nodeToRemove->next;
 
     if (head) head->prev = nullptr;
+    auxPointerIndex--;
     (*C)++;
     (*M) += 3;
     
@@ -256,12 +257,14 @@ Node<T> *LinkedList<T>::removeListTail(int *C, int *M)
     Node<T> *nodeToRemove = tail;
 
     tail = nodeToRemove->prev;
-    if (tail) 
+    if (tail != nullptr) 
         tail->next = nullptr;
-    else 
-        head = nullptr;
 
-    (*M) += 3;
+    auxPointer = tail,
+    auxPointerIndex--;
+
+    (*M) += 5;
+    (*C)++;
     return nodeToRemove;
 }
 
@@ -287,6 +290,8 @@ Node<T> *LinkedList<T>::removeAtIndex(int index, int *C, int *M)
     nodeToRemove->prev->next = nodeToRemove->next;
     nodeToRemove->next->prev = nodeToRemove->prev;
 
-    (*M) += 3;
+    auxPointer = nodeToRemove->next;
+
+    (*M) += 4;
     return nodeToRemove;
 }

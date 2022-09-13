@@ -9,6 +9,7 @@
 #include "../includes/list.hpp"
 using std::cout;
 using std::cin;
+using std::endl;
 
 System::System()
 {
@@ -250,11 +251,11 @@ void System::writeFileFromList(std::string filename)
 
     if (file.is_open())
     {
-        for (int i = 0; i < list->length; i++)
+        for (int i = 0, l = list->getLength(); i < l; i++)
         {
             name = list->getAt(i, &C, &M)->name;
             rg = list->getAt(i, &C, &M)->rg;
-            file << name << "," << rg << "\n";
+            file << name << "," << rg << endl;
         }
 
         file.close();
