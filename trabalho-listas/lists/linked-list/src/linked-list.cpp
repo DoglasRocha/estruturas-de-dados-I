@@ -171,52 +171,53 @@ void LinkedList<T>::insertAtIndex(Node<T> *node, int index, int *C, int *M)
 template <class T> 
 Node<T> *LinkedList<T>::getNodeAt(int index, int *C, int *M)
 {
-    int indexDelta = index - auxPointerIndex;
-    int diffToBorder;
+    int indexDelta = index - auxPointerIndex,
+        diffToHead = index,
+        diffToTail = length - 1 - index;
+    (*M) += 3;
 
-    if (indexDelta >= 0)
+    if (diffToHead < indexDelta)
+        auxPointerIndex = 0,
+        auxPointer = head,
+        indexDelta = index - auxPointerIndex,
+        (*M) += 3;
+
+    if (diffToTail < indexDelta)
+        auxPointerIndex = length -1,
+        auxPointer = tail,
+        indexDelta = index - auxPointerIndex,
+        (*M) += 3;
+
+    (*C) += 2;
+
+    if (indexDelta > 0)
     {
-        diffToBorder = length - index;
-        if (indexDelta <= diffToBorder)
+        while (index != auxPointerIndex)
         {
-            (*C)++;
+            auxPointerIndex++,
+            auxPointer = auxPointer->next;
+            (*C)++, (*M) += 2;
 
-            while (auxPointerIndex != index)
-                auxPointer = auxPointer->next,
-                auxPointerIndex++,
-                (*C)++, (*M)++;
-
-            return auxPointer;
+            if (auxPointer == nullptr)
+                auxPointerIndex = 0,
+                auxPointer = head;
         }
         (*C)++;
-
-        for (
-            auxPointerIndex = length -1, auxPointer = tail;
-            auxPointerIndex != index;
-            auxPointer = auxPointer->prev, auxPointerIndex--, (*C)++, (*M)++
-        );
-
-        return auxPointer;
-    }  
-    (*C)++;
-
-    if (-index > indexDelta)
-    {
-        (*C)++;
-        for (
-            auxPointerIndex = 0, auxPointer = head;
-            auxPointerIndex != index;
-            auxPointer = auxPointer->next, auxPointerIndex++, (*C)++, (*M)++
-        )
-
-        return auxPointer;
     }
-    (*C)++;
+    else
+    {
+        while (index != auxPointerIndex)
+        {
+            auxPointerIndex--,
+            auxPointer = auxPointer->prev;
+            (*C)++, (*M) += 2;
 
-    while (auxPointerIndex != index)
-        auxPointer = auxPointer->prev,
-        auxPointerIndex--,
-        (*C)++, (*M)++;
+            if (auxPointer == nullptr)
+                auxPointerIndex = length -1,
+                auxPointer = tail;
+        }
+        (*C)++;
+    }
 
     return auxPointer;
 }
