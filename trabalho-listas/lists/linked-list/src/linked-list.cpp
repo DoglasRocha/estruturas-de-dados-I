@@ -237,8 +237,16 @@ Node<T> *LinkedList<T>::removeListHead(int *C, int *M)
     head = nodeToRemove->next;
 
     if (head) head->prev = nullptr;
-    auxPointerIndex--;
-    (*C)++;
+
+    if (nodeToRemove == auxPointer)
+        auxPointer = head,
+        auxPointerIndex = 0,
+        (*M)++;
+
+    else
+        auxPointerIndex--;
+
+    (*C) += 2;
     (*M) += 3;
     
     return nodeToRemove;

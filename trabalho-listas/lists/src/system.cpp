@@ -232,7 +232,7 @@ void System::searchInList(long rg, int *C, int *M)
     start = clock();
     int i, l;
 
-    for (i = 0, l = list->getLength(); i < l; i++, (*C)++, (*M) += 2)
+    for (i = 0, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
         if (list->getAt(i, C, M)->rg == rg)
         {
             printData(list->getAt(i, C, M), i, C, M);
