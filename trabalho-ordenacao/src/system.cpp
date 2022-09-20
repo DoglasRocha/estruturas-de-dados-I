@@ -1,0 +1,328 @@
+#include <iostream>
+#include <fstream>
+#include "../includes/system.hpp"
+#include "../common/includes/person.hpp"
+#include "../sequential-list/includes/sequential-list.hpp"
+#include "../sequential-list/src/sequential-list.cpp"
+using std::cout;
+using std::cin;
+using std::endl;
+
+System::System()
+{
+    list = new SequentialList<Person *>();
+    option = -1;
+
+    run();
+}
+
+System::~System()
+{
+    delete list;
+}
+
+void System::run()
+{
+    printCompleteMenu();
+    evaluateMenuOption();
+
+    while (option != 11)
+    {
+        printBasicMenu();
+        evaluateMenuOption();
+    }
+}
+
+double System::calcRuntime(clock_t start)
+{
+    double diff = ((double) clock() - (double) start) / (double) CLOCKS_PER_SEC;
+    return diff;
+}
+
+void System::printBasicMenu()
+{
+    cout << "Digite a opção desejada:\n";
+    cout << "(1) - Inserir uma pessoa no início da lista\n";
+    cout << "(2) - Inserir uma pessoa no fim da lista\n";
+    cout << "(3) - Inserir uma pessoa na posição N da lista\n";
+    cout << "(4) - Remover uma pessoa no início da lista\n";
+    cout << "(5) - Remover uma pessoa no fim da lista\n";
+    cout << "(6) - Remover uma pessoa na posição N da lista\n";
+    cout << "(7) - Procurar um nó por RG\n";
+    cout << "(8) - Ordenar a lista" << endl;
+    cout << "(9) - Imprimir a lista na tela\n";
+    cout << "(10) - Salvar a lista em um arquivo\n";
+    cout << "(11) - Ler a lista de um arquivo\n";
+    cout << "(12) - Sair\n\n";
+
+    cin >> option;
+
+    if (option < 1 || option > 11)
+        printBasicMenu();
+}
+
+void System::printCompleteMenu()
+{
+    cout << "TRABALHO 1 - LISTA DE CLIENTES\n";
+    cout << "==============================\n";
+    cout << "© by Doglas Rocha\n\n\n\n";
+
+    printBasicMenu();
+}
+
+void System::evaluateMenuOption()
+{
+    int position, C, M;
+    long rg;
+    std::string filename;
+    C = M = 0;
+
+    switch (option)
+    {
+    case 1:
+        insertIntoListManually(0, &C, &M);
+        break;
+
+    case 2:
+        insertIntoListManually(-1, &C, &M);
+        break;
+
+    case 3:
+        cout << "Em qual posição você deseja inserir o nó? ";
+        cin >> position;
+        insertIntoListManually(position, &C, &M);
+        break;
+
+    case 4:
+        removeFromList(0, &C, &M);
+        break;
+
+    case 5:
+        removeFromList(-1, &C, &M);
+        break;
+
+    case 6:
+        cout << "De qual posição você deseja remover o nó? ";
+        cin >> position;
+        removeFromList(position, &C, &M);
+        break;
+
+    case 7:
+        cout << "Qual RG você deseja procurar? ";
+        cin >> rg;
+        searchingMenu(rg, &C, &M);
+        break;
+
+    case 8:
+        for (int i = 0, l = list->getLength(); i < l; i++)
+            cout << "Nome: " << list->getAt(i, &C, &M)->name << ", "
+                 << "RG: " << list->getAt(i, &C, &M)->rg << ", "
+                 << "posição: " << i << "\n";
+        break;
+
+    case 9:
+        cout << "Por favor, digite o nome do novo arquivo: ";
+        cin >> filename;
+        writeFileFromList(filename);
+        break;
+    
+    case 10:
+        cout << "Por favor, digite o nome do arquivo a ser lido: ";
+        cin >> filename;
+        readFileAndInsertIntoList(filename);
+        break;
+
+    default:
+        break;
+    }
+}
+
+void System::printData(Person *person, int index, int *C, int *M)
+{
+    int pIndex, length = list->getLength();
+
+    if (index <= 0 || length == 0)
+        pIndex = 0;
+
+    else if (index == -1 || index > length)
+        pIndex = length - 1;
+
+    else
+        pIndex = index;
+
+    if (person != nullptr)
+        cout << "Nome: " << person->name << ", RG: " << person->rg
+             << " posição: " << pIndex << ", ";
+    else
+        cout <<"RG não encontrado, ";
+
+    cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) 
+         << "s \n";
+}
+
+Person *System::createPersonManually()
+{
+    std::string name;
+    long rg;
+
+    cout << "Digite o nome e o RG da pessoa, separados por espaços: ";
+    cin >> name >> rg;
+
+    return new Person(name, rg);
+}
+
+Person *System::createPersonFromFile(std::string name, long rg)
+{
+    return new Person(name, rg);
+}
+
+void System::insertIntoListManually(int index, int *C, int *M)
+{
+    start = clock();
+
+    Person *person = createPersonManually();
+    list->insert(person, index, C, M);
+    printData(person, index, C, M);
+}
+
+void System::removeFromList(int index, int *C, int *M)
+{
+    start = clock();
+
+    Person *person = list->remove(index, C, M);
+    printData(person, index, C, M);
+    delete person;
+}
+
+void System::sequentialSearch(long rg, int *C, int *M)
+{
+    start = clock();
+    int i, l;
+
+    for (i = 0, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
+        if (list->getAt(i, C, M)->rg == rg)
+        {
+            printData(list->getAt(i, C, M), i, C, M);
+            return;
+        }
+    
+    printData(nullptr, i, C, M);
+}   
+
+void System::writeFileFromList(std::string filename)
+{
+    int C = 0, M = 0;
+    std::ofstream file(filename); 
+    std::string name;
+    long rg;
+
+    if (file.is_open())
+    {
+        for (int i = 0, l = list->getLength(); i < l; i++)
+        {
+            name = list->getAt(i, &C, &M)->name;
+            rg = list->getAt(i, &C, &M)->rg;
+            file << name << "," << rg << endl;
+        }
+
+        file.close();
+        return;
+    }
+
+    cout << "Erro na abertura de arquivo\n";
+}
+
+void System::readFileAndInsertIntoList(std::string filename)
+{
+    int C = 0, M = 0;
+    size_t commaPos, lineBreakPos;
+    std::string line, name;
+    long rg;
+    Person *newPerson;
+    double runtime;
+    start = clock();
+
+    std::ifstream file(filename);
+
+    if (file.is_open())
+    {
+        while (std::getline(file, line))
+        {
+            commaPos = line.find(',');
+            lineBreakPos = line.find('\n');
+
+            name = line.substr(0, commaPos);
+            rg = std::stol(line.substr(commaPos+1, lineBreakPos));
+
+            newPerson = createPersonFromFile(name, rg);
+            list->insert(newPerson, -1, &C, &M);
+        }
+
+        file.close();
+        runtime = ((double) clock() - start) / CLOCKS_PER_SEC;
+        cout << "Tempo de leitura e armazenamento do arquivo: " << runtime << "s\n\n";
+        return;
+    }
+
+    cout << "Erro na abertura do arquivo\n";
+}
+
+void System::searchingMenu(long rg, int *C, int *M)
+{
+    cout << "Qual busca você deseja utilizar?" << endl
+         << "(1) Sequencial" << endl
+         << "(2) Binária" << endl;
+    cin >> option;
+
+    if (option != 1 && option != 2)
+        searchingMenu(rg, C, M);
+    (*C)++;
+
+    if (option == 1)
+        sequentialSearch(rg, C, M);
+
+    else
+        binarySearch(rg, C, M);
+
+    (*C)++;
+}
+
+void System::binarySearch(long rg, int *C, int *M)
+{
+
+}
+
+void System::sortingMenu()
+{
+
+}
+
+void System::selectionSort()
+{
+
+}
+
+void System::insertionSort()
+{
+
+}
+
+void System::bubbleSort()
+{
+
+}
+
+void System::shellSort()
+{
+
+}
+
+void System::quickSort()
+{
+
+}
+
+void System::mergeSort()
+{
+
+}
