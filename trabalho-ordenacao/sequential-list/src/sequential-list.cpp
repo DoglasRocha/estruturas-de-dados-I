@@ -76,7 +76,7 @@ T SequentialList<T>::remove(int index, int *C, int *M)
 }
 
 template <class T>
-T SequentialList<T>::getAt(int index, int *C, int *M)
+T SequentialList<T>::operator[](int index)
 {
     return array[index];
 }
@@ -245,4 +245,15 @@ void SequentialList<T>::moveOneIndexDownAndDecreaseListSize(int indexToMove, int
 {
     moveOneIndexDown(indexToMove, C, M);
     decreaseListSize(C, M);
+}
+
+template<class T>
+void SequentialList<T>::swap(int index1, int index2, int *C, int *M)
+{
+    T tmp;
+
+    tmp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = tmp;
+    (*M) += 3;
 }

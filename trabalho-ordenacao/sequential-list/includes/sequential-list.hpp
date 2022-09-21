@@ -9,8 +9,9 @@ class SequentialList
         ~SequentialList();
         SequentialList<T> *insert(T data, int index, int *C, int *M);
         T remove(int index, int *C, int *M);
-        T getAt(int index, int *C, int *M);
+        T operator[](int index);
         int getLength();
+        void swap(int index1, int index2, int *C, int *M);
 
     private:
         int length;

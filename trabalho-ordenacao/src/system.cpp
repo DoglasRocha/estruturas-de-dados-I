@@ -26,7 +26,7 @@ void System::run()
     printCompleteMenu();
     evaluateMenuOption();
 
-    while (option != 11)
+    while (option != 12)
     {
         printBasicMenu();
         evaluateMenuOption();
@@ -57,7 +57,7 @@ void System::printBasicMenu()
 
     cin >> option;
 
-    if (option < 1 || option > 11)
+    if (option < 1 || option > 12)
         printBasicMenu();
 }
 
@@ -114,19 +114,23 @@ void System::evaluateMenuOption()
         break;
 
     case 8:
-        for (int i = 0, l = list->getLength(); i < l; i++)
-            cout << "Nome: " << list->getAt(i, &C, &M)->name << ", "
-                 << "RG: " << list->getAt(i, &C, &M)->rg << ", "
-                 << "posição: " << i << "\n";
+        sortingMenu(&C, &M);
         break;
 
     case 9:
+        for (int i = 0, l = list->getLength(); i < l; i++)
+            cout << "Nome: " << (*list)[i]->name << ", "
+                 << "RG: " << (*list)[i]->rg << ", "
+                 << "posição: " << i << "\n";
+        break;
+
+    case 10:
         cout << "Por favor, digite o nome do novo arquivo: ";
         cin >> filename;
         writeFileFromList(filename);
         break;
     
-    case 10:
+    case 11:
         cout << "Por favor, digite o nome do arquivo a ser lido: ";
         cin >> filename;
         readFileAndInsertIntoList(filename);
@@ -200,9 +204,9 @@ void System::sequentialSearch(long rg, int *C, int *M)
     int i, l;
 
     for (i = 0, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
-        if (list->getAt(i, C, M)->rg == rg)
+        if ((*list)[i]->rg == rg)
         {
-            printData(list->getAt(i, C, M), i, C, M);
+            printData((*list)[i], i, C, M);
             return;
         }
     
@@ -220,8 +224,8 @@ void System::writeFileFromList(std::string filename)
     {
         for (int i = 0, l = list->getLength(); i < l; i++)
         {
-            name = list->getAt(i, &C, &M)->name;
-            rg = list->getAt(i, &C, &M)->rg;
+            name = (*list)[i]->name;
+            rg = (*list)[i]->rg;
             file << name << "," << rg << endl;
         }
 
@@ -292,37 +296,100 @@ void System::binarySearch(long rg, int *C, int *M)
 
 }
 
-void System::sortingMenu()
+void System::sortingMenu(int *C, int *M)
+{
+    cout << "Qual tipo de ordenação você quer utilizar?" << endl
+         << "(1) Selection Sort" << endl
+         << "(2) Insertion Sort" << endl
+         << "(3) Bubble Sort" << endl
+         << "(4) Shell Sort" << endl
+         << "(5) Quick Sort" << endl
+         << "(6) Merge Sort" << endl;
+
+    cin >> option;
+
+    if (option < 1 || option > 6)
+    {
+        cout << "Opção inválida!!" << endl;
+        sortingMenu(C, M);
+    }
+    (*C)++;
+
+    switch (option) {
+        case 1:
+            (*C)++;
+            selectionSort(C, M);
+            break;
+
+        case 2:
+            (*C) += 2;
+            insertionSort(C, M);
+            break;
+
+        case 3:
+            (*C) += 3;
+            bubbleSort(C, M);
+            break;
+
+        case 4:
+            (*C) += 4;
+            shellSort(C, M);
+            break;
+
+        case 5:
+            (*C) += 5;
+            quickSort(C, M);
+            break;
+
+        case 6:
+            (*C) += 6;
+            mergeSort(C, M);
+            break;
+    }
+}
+
+void System::selectionSort(int *C, int *M)
+{
+    Person *smaller;
+    int i, j, l, smallerPos;
+    l = list->getLength();
+
+    for (i = 0; i < l; i++, (*C)++, (*M)++)
+    {
+        for (j = i; j < l; j++, (*C)++, (*M)++)
+        {
+            (*C)++;
+            if (j == i || (*list)[j]->rg < smaller->rg)
+                smaller = (*list)[j],
+                smallerPos = j,
+                (*M)++;
+        }
+
+        list->swap(i, smallerPos, C, M);
+    }
+}
+
+void System::insertionSort(int *C, int *M)
 {
 
 }
 
-void System::selectionSort()
+void System::bubbleSort(int *C, int *M)
 {
 
 }
 
-void System::insertionSort()
+void System::shellSort(int *C, int *M)
 {
 
 }
 
-void System::bubbleSort()
+void System::quickSort(int *C, int *M)
 {
 
 }
 
-void System::shellSort()
-{
-
-}
-
-void System::quickSort()
-{
-
-}
-
-void System::mergeSort()
+void System::mergeSort(int *C, int *M)
 {
 
 }

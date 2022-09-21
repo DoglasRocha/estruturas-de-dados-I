@@ -37,11 +37,11 @@ class System
         void sequentialSearch(long rg, int *C, int *M);
         void binarySearch(long rg, int *C, int *M);
 
-        void sortingMenu();
-        void selectionSort();
-        void insertionSort();
-        void bubbleSort();
-        void shellSort();
-        void quickSort();
-        void mergeSort();
+        void sortingMenu(int *C, int *M);
+        void selectionSort(int *C, int *M);
+        void insertionSort(int *C, int *M);
+        void bubbleSort(int *C, int *M);
+        void shellSort(int *C, int *M);
+        void quickSort(int *C, int *M);
+        void mergeSort(int *C, int *M);
 };
