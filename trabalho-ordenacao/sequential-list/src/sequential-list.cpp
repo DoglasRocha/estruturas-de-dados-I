@@ -257,3 +257,20 @@ void SequentialList<T>::swap(int index1, int index2, int *C, int *M)
     array[index2] = tmp;
     (*M) += 3;
 }
+
+template<class T>
+void SequentialList<T>::swapAndShift(int from, int to, int *C, int *M)
+{
+    if (from == -1)
+        from = 0;
+
+    (*C)++;
+
+    T tmp = array[to];
+
+    for (int i = to; i > from; i--, (*C)++, (*M) += 2)
+        array[i] = array[i - 1];
+
+    array[from] = tmp;
+    (*M) += 2;
+}

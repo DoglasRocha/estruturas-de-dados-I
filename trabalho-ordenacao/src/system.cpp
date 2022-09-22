@@ -164,6 +164,11 @@ void System::printData(Person *person, int index, int *C, int *M)
          << "s \n";
 }
 
+void System::printRuntime(int *C, int *M)
+{
+    cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) << "s" << endl;
+}
+
 Person *System::createPersonManually()
 {
     std::string name;
@@ -243,7 +248,6 @@ void System::readFileAndInsertIntoList(std::string filename)
     std::string line, name;
     long rg;
     Person *newPerson;
-    double runtime;
     start = clock();
 
     std::ifstream file(filename);
@@ -263,8 +267,7 @@ void System::readFileAndInsertIntoList(std::string filename)
         }
 
         file.close();
-        runtime = ((double) clock() - start) / CLOCKS_PER_SEC;
-        cout << "Tempo de leitura e armazenamento do arquivo: " << runtime << "s\n\n";
+        cout << "Tempo de leitura e armazenamento do arquivo: " << calcRuntime(start) << "s\n\n";
         return;
     }
 
@@ -350,28 +353,50 @@ void System::sortingMenu(int *C, int *M)
 
 void System::selectionSort(int *C, int *M)
 {
-    Person *smaller;
     int i, j, l, smallerPos;
     l = list->getLength();
+    start = clock();
 
     for (i = 0; i < l; i++, (*C)++, (*M)++)
     {
         for (j = i; j < l; j++, (*C)++, (*M)++)
         {
             (*C)++;
-            if (j == i || (*list)[j]->rg < smaller->rg)
-                smaller = (*list)[j],
+            if (j == i || (*list)[j]->rg < (*list)[smallerPos]->rg)
                 smallerPos = j,
                 (*M)++;
         }
 
         list->swap(i, smallerPos, C, M);
     }
+
+    printRuntime(C, M);
 }
 
 void System::insertionSort(int *C, int *M)
 {
+    int i = 0, j = 0, l = list->getLength();
+    bool hasSwapped;
+    start = clock();
 
+    for (i = 1; i < l; i++, (*C)++, (*M)++)
+    {
+        hasSwapped = false;
+        for (j = i - 1; j >= 0; j--, (*C)++, (*M) += 2)
+        {
+            if ((*list)[i]->rg > (*list)[j]->rg)
+            {
+                list->swapAndShift(j+1, i, C, M);
+                hasSwapped = true;
+                break;
+            }
+        }
+        (*C)++;
+        if (!hasSwapped)
+            list->swapAndShift(0, i, C, M);
+    }
+
+    printRuntime(C, M);
 }
 
 void System::bubbleSort(int *C, int *M)

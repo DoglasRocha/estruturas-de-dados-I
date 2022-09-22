@@ -12,6 +12,7 @@ class SequentialList
         T operator[](int index);
         int getLength();
         void swap(int index1, int index2, int *C, int *M);
+        void swapAndShift(int from, int to, int *C, int *M);
 
     private:
         int length;

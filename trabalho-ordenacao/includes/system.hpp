@@ -2,7 +2,7 @@
 #include <string>
 #include <time.h>
 #include "../sequential-list/includes/sequential-list.hpp"
-#include "../common/includes/person.hpp"
+#include "../common/includes/person.hpp" 
 
 class System
 {
@@ -23,6 +23,7 @@ class System
         void evaluateMenuOption();
 
         void printData(Person *person, int index, int *C, int *M);
+        void printRuntime(int *C, int *M);
 
         Person *createPersonManually();
 
