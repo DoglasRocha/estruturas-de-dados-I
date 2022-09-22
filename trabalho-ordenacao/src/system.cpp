@@ -3,7 +3,6 @@
 #include "../includes/system.hpp"
 #include "../common/includes/person.hpp"
 #include "../sequential-list/includes/sequential-list.hpp"
-#include "../sequential-list/src/sequential-list.cpp"
 using std::cout;
 using std::cin;
 using std::endl;
@@ -26,7 +25,7 @@ void System::run()
     printCompleteMenu();
     evaluateMenuOption();
 
-    while (option != 12)
+    while (option != 13)
     {
         printBasicMenu();
         evaluateMenuOption();
@@ -53,11 +52,12 @@ void System::printBasicMenu()
     cout << "(9) - Imprimir a lista na tela\n";
     cout << "(10) - Salvar a lista em um arquivo\n";
     cout << "(11) - Ler a lista de um arquivo\n";
-    cout << "(12) - Sair\n\n";
+    cout << "(12) - Limpar lista" << endl;
+    cout << "(13) - Sair\n\n";
 
     cin >> option;
 
-    if (option < 1 || option > 12)
+    if (option < 1 || option > 13)
         printBasicMenu();
 }
 
@@ -134,6 +134,11 @@ void System::evaluateMenuOption()
         cout << "Por favor, digite o nome do arquivo a ser lido: ";
         cin >> filename;
         readFileAndInsertIntoList(filename);
+        break;
+
+    case 12:
+        list->clear();
+        cout << "Lista limpa!" << endl;
         break;
 
     default:
@@ -375,7 +380,7 @@ void System::selectionSort(int *C, int *M)
 
 void System::insertionSort(int *C, int *M)
 {
-    int i = 0, j = 0, l = list->getLength();
+    int i, j, l = list->getLength();
     bool hasSwapped;
     start = clock();
 
@@ -401,7 +406,20 @@ void System::insertionSort(int *C, int *M)
 
 void System::bubbleSort(int *C, int *M)
 {
+    int moves = -1;
 
+    while (moves != 0)
+    {
+        moves = 0;
+        for (int i = 1, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
+        {
+            if ((*list)[i]->rg < (*list)[i - 1]->rg)
+                list->swap(i - 1, i, C, M),
+                moves++;
+        }
+    }
+
+    printRuntime(C, M);
 }
 
 void System::shellSort(int *C, int *M)

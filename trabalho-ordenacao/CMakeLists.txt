@@ -8,6 +8,5 @@ include_directories(${PROJECT_SOURCE_DIR}/sequencial-list/includes)
 
 file(GLOB SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
 file(GLOB COMMON_SRC "${PROJECT_SOURCE_DIR}/common/src/*.cpp")
-file(GLOB SEQ_LIST_SRC "${PROJECT_SOURCE_DIR}/sequencial/src/*.cpp")
 
-add_executable(trabalho_ordenacao main.cpp ${SRC} ${COMMON_SRC} ${SEQ_LIST_SRC})
+add_executable(trabalho_ordenacao main.cpp ${SRC} ${COMMON_SRC})
