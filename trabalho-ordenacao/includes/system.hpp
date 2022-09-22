@@ -16,18 +16,18 @@ class System
         clock_t start;
         SequentialList<Person *> *list;
 
-        double calcRuntime(clock_t start);
+        static double calcRuntime(clock_t start);
 
         void printBasicMenu();
         void printCompleteMenu();
         void evaluateMenuOption();
 
-        void printData(Person *person, int index, int *C, int *M);
-        void printRuntime(int *C, int *M);
+        void printData(Person *person, int index, const int *C, const int *M);
+        void printRuntime(const int *C, const int *M) const;
 
-        Person *createPersonManually();
+        static Person *createPersonManually();
 
-        Person *createPersonFromFile(std::string name, long rg);
+        static Person *createPersonFromFile(std::string name, long rg);
         void insertIntoListManually(int index, int *C, int *M);
         void removeFromList(int index, int *C, int *M);
 

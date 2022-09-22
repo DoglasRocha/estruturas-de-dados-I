@@ -146,7 +146,7 @@ void System::evaluateMenuOption()
     }
 }
 
-void System::printData(Person *person, int index, int *C, int *M)
+void System::printData(Person *person, int index, const int *C, const int *M)
 {
     int pIndex, length = list->getLength();
 
@@ -169,7 +169,7 @@ void System::printData(Person *person, int index, int *C, int *M)
          << "s \n";
 }
 
-void System::printRuntime(int *C, int *M)
+void System::printRuntime(const int *C, const int *M) const
 {
     cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) << "s" << endl;
 }
@@ -225,7 +225,6 @@ void System::sequentialSearch(long rg, int *C, int *M)
 
 void System::writeFileFromList(std::string filename)
 {
-    int C = 0, M = 0;
     std::ofstream file(filename); 
     std::string name;
     long rg;
@@ -301,7 +300,36 @@ void System::searchingMenu(long rg, int *C, int *M)
 
 void System::binarySearch(long rg, int *C, int *M)
 {
+    int currentPos = list->getLength();
+    start = clock();
 
+    do
+    {
+        (*C) += 2;
+
+        if ((*list)[currentPos]->rg > rg)
+        {
+            currentPos -= (currentPos / 2);
+            (*C)++;
+            cout << (*list)[currentPos]->rg << "," << currentPos << ",-" << endl;
+            continue;
+        }
+        else if ((*list)[currentPos]->rg < rg)
+        {
+            currentPos += (currentPos / 2);
+            (*C) += 2;
+            cout << (*list)[currentPos]->rg << "," << currentPos << ",+" << endl;
+            continue;
+        }
+
+        (*C) += 2;
+    }
+    while ((*list)[currentPos]->rg != rg);
+
+    if ((*list)[currentPos]->rg == rg)
+        printData((*list)[currentPos], currentPos, C, M);
+    else
+        printData(nullptr, 0, C, M);
 }
 
 void System::sortingMenu(int *C, int *M)
