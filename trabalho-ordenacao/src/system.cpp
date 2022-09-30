@@ -410,26 +410,22 @@ void System::selectionSort(int *C, int *M)
 void System::insertionSort(int *C, int *M)
 {
     int i, j, l = list->getLength();
-    bool hasSwapped;
+    Person *current;
     start = clock();
 
     for (i = 1; i < l; i++, (*C)++, (*M)++)
     {
-        hasSwapped = false;
-        for (j = i - 1; j >= 0; j--, (*C)++, (*M) += 2)
+        current = (*list)[i];
+        j = i - 1;
+        while (j >= 0 && current->rg < (*list)[j]->rg)
         {
-            if ((*list)[i]->rg > (*list)[j]->rg)
-            {
-                list->swapAndShift(j+1, i, C, M);
-                hasSwapped = true;
-                break;
-            }
+            (*C)++, (*M)++;
+            (*list)[j + 1] = (*list)[j];
+            j--;
         }
-        (*C)++;
-        if (!hasSwapped)
-            list->swapAndShift(0, i, C, M);
+        (*C)++, (*M)++;
+        (*list)[j + 1] = current;
     }
-
     printRuntime(C, M);
 }
 
@@ -453,12 +449,57 @@ void System::bubbleSort(int *C, int *M)
 
 void System::shellSort(int *C, int *M)
 {
+    int i, j, l = list->getLength(), h;
+    Person *current;
+    start = clock();
 
+    for (h = l / 2; h > 0; h /= 2)
+    {
+        for (i = h; i < l; i++, (*C)++, (*M)++)
+        {
+            current = (*list)[i];
+            for (j = i; j >= h && (*list)[j - h]->rg > current->rg; j -= h, (*C)++, (*M)++)
+            {
+                (*list)[j] = (*list)[j - h];
+            }
+            (*list)[j] = current;
+            (*M)++;
+        }
+    }
+
+    printRuntime(C, M);
 }
 
-void System::quickSort(int *C, int *M)
+void System::quickSort(int *C, int *M, int begin, int end)
 {
+    int i, j;
+    if (end == -1)
+        end = list->getLength() - 1;
+    i = begin, j = end;
 
+    Person *key = (*list)[(begin + end) / 2];
+
+    do
+    {
+        (*C)++, (*M)++;
+        while ((*list)[i]->rg < key->rg)
+            i++, (*C)++, (*M)++;
+
+        while ((*list)[j]->rg > key->rg)
+            j--, (*C)++, (*M)++;
+
+        (*C)++;
+        if (i <= j)
+        {
+            list->swap(i, j, C, M);
+            i++, j--;
+        }
+    }
+    while (i > j);
+    if (j > begin) quickSort(C, M, begin, j);
+    (*C)++;
+    if (i < end) quickSort(C, M, i, end);
+    (*C)++;
 }
 
 void System::mergeSort(int *C, int *M)

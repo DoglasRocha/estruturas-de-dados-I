@@ -9,11 +9,11 @@ class SequentialList
         ~SequentialList();
         SequentialList<T> *insert(T data, int index, int *C, int *M);
         T remove(int index, int *C, int *M);
-        T operator[](int index);
+        T &operator[](int index);
         int getLength();
         SequentialList<T> *swap(int index1, int index2, int *C, int *M);
-        SequentialList<T> *swapAndShift(int from, int to, int *C, int *M);
-        SequentialList<T> *clear();
+
+    SequentialList<T> *clear();
 
     private:
         int length;
@@ -45,6 +45,7 @@ template <class T>
 SequentialList<T>::~SequentialList()
 {
     clear();
+    free(array);
 }
 
 template <class T>
@@ -101,7 +102,7 @@ T SequentialList<T>::remove(int index, int *C, int *M)
 }
 
 template <class T>
-T SequentialList<T>::operator[](int index)
+T &SequentialList<T>::operator[](int index)
 {
     return array[index];
 }
@@ -281,25 +282,6 @@ SequentialList<T> *SequentialList<T>::swap(int index1, int index2, int *C, int *
     array[index1] = array[index2];
     array[index2] = tmp;
     (*M) += 3;
-
-    return this;
-}
-
-template<class T>
-SequentialList<T> *SequentialList<T>::swapAndShift(int from, int to, int *C, int *M)
-{
-    if (from == -1)
-        from = 0;
-
-    (*C)++;
-
-    T tmp = array[to];
-
-    for (int i = to; i > from; i--, (*C)++, (*M) += 2)
-        array[i] = array[i - 1];
-
-    array[from] = tmp;
-    (*M) += 2;
 
     return this;
 }
