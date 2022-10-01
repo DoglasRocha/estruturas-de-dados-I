@@ -120,9 +120,8 @@ void System::evaluateMenuOption()
 
     case 9:
         for (int i = 0, l = list->getLength(); i < l; i++)
-            cout << "Nome: " << (*list)[i]->name << ", "
-                 << "RG: " << (*list)[i]->rg << ", "
-                 << "posição: " << i << "\n";
+            cout << i << " - Nome: " << (*list)[i]->name << ", "
+                 << "RG: " << (*list)[i]->rg << endl;
         break;
 
     case 10:
@@ -161,18 +160,18 @@ void System::printData(Person *person, int index, const int *C, const int *M)
         pIndex = index;
 
     if (person != nullptr)
-        cout << "Nome: " << person->name << ", RG: " << person->rg
+        cout << pIndex << "- Nome: " << person->name << ", RG: " << person->rg
              << " posição: " << pIndex << ", ";
     else
-        cout <<"RG não encontrado, ";
+        cout << "RG não encontrado, ";
 
-    cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) 
+    cout << "C(n): " << *C << ", M(n): " << *M << ", Runtime: " << calcRuntime(start)
          << "s \n";
 }
 
 void System::printRuntime(const int *C, const int *M) const
 {
-    cout << "C: " << *C << ", M: " << *M << ", Runtime: " << calcRuntime(start) << "s" << endl;
+    cout << "C(n): " << *C << ", M(n): " << *M << ", Runtime: " << calcRuntime(start) << "s" << endl;
 }
 
 Person *System::createPersonManually()
