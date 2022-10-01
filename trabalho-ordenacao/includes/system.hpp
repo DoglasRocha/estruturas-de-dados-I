@@ -40,10 +40,11 @@ class System
 
         void sortingMenu(int *C, int *M);
         void selectionSort(int *C, int *M);
-        void insertionSort(int *C, int *M);
+        void insertionSort(int *C, int *M, int h=1);
         void bubbleSort(int *C, int *M);
         void shellSort(int *C, int *M);
-        int partition(int *C, int *M, int begin=0, int end=-1);
-        void quickSort(int *C, int *M, int begin=0, int end=-1);
-        void mergeSort(int *C, int *M);
+        int partition(int *C, int *M, int begin, int end);
+        void quickSort(int *C, int *M, int begin, int end);
+        void merge(int *C, int *M, int begin, int mid, int end);
+        void mergeSort(int *C, int *M, int begin, int end);
 };

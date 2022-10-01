@@ -384,14 +384,14 @@ void System::sortingMenu(int *C, int *M)
         case 5:
             (*C) += 5;
             start = clock();
-            quickSort(C, M);
+            quickSort(C, M, 0, list->getLength() - 1);
             printRuntime(C, M);
             break;
 
         case 6:
             (*C) += 6;
             start = clock();
-            mergeSort(C, M);
+            mergeSort(C, M, 0, list->getLength() - 1);
             printRuntime(C, M);
             break;
     }
@@ -416,23 +416,20 @@ void System::selectionSort(int *C, int *M)
     }
 }
 
-void System::insertionSort(int *C, int *M)
+void System::insertionSort(int *C, int *M, int h)
 {
     int i, j, l = list->getLength();
     Person *current;
 
-    for (i = 1; i < l; i++, (*C)++, (*M)++)
+    for (i = h; i < l; i++, (*C)++, (*M)++)
     {
         current = (*list)[i];
-        j = i - 1;
-        while (j >= 0 && current->rg < (*list)[j]->rg)
-        {
-            (*C)++, (*M)++;
-            (*list)[j + 1] = (*list)[j];
-            j--;
-        }
-        (*C)++, (*M)++;
-        (*list)[j + 1] = current;
+
+        for (j = i; j >= h && current->rg < (*list)[j - h]->rg; j -= h, (*C)++, (*M)++)
+            (*list)[j] = (*list)[j - h];
+
+        (*list)[j] = current;
+        (*M)++;
     }
 }
 
@@ -454,22 +451,8 @@ void System::bubbleSort(int *C, int *M)
 
 void System::shellSort(int *C, int *M)
 {
-    int i, j, l = list->getLength(), h;
-    Person *current;
-
-    for (h = l / 2; h > 0; h /= 2)
-    {
-        for (i = h; i < l; i++, (*C)++, (*M)++)
-        {
-            current = (*list)[i];
-            for (j = i; j >= h && (*list)[j - h]->rg > current->rg; j -= h, (*C)++, (*M)++)
-            {
-                (*list)[j] = (*list)[j - h];
-            }
-            (*list)[j] = current;
-            (*M)++;
-        }
-    }
+    for (int h = list->getLength() / 2; h > 0; h /= 2)
+        insertionSort(C, M, h);
 }
 
 int System::partition(int *C, int *M, int begin, int end)
@@ -510,9 +493,8 @@ int System::partition(int *C, int *M, int begin, int end)
 void System::quickSort(int *C, int *M, int begin, int end)
 {
     int p;
-    if (end == -1)
-        end = list->getLength() - 1;
-    (*C) += 2;
+
+    (*C)++;
     if (begin >= end)
         return;
 
@@ -522,7 +504,64 @@ void System::quickSort(int *C, int *M, int begin, int end)
     quickSort(C, M, p + 1, end);
 }
 
-void System::mergeSort(int *C, int *M)
+void System::merge(int *C, int *M, int begin, int mid, int end)
 {
+    int leftSize, rightSize, leftCount = 0, rightCount = 0, mergedIndex = begin;
+    Person **leftList, **rightList;
+    leftSize = mid - begin + 1;
+    rightSize = end - mid;
+    leftList = new Person*[leftSize];
+    rightList = new Person*[rightSize];
 
+    for (int i = 0; i < leftSize; i++, (*C)++, (*M)++)
+        leftList[i] = (*list)[begin + i];
+
+    for (int i = 0; i < rightSize; i++, (*C)++, (*M)++)
+        rightList[i] = (*list)[mid + 1 + i];
+
+    (*C)++;
+    while (leftCount < leftSize && rightCount < rightSize)
+    {
+        (*C)++;
+        if (leftList[leftCount]->rg <= rightList[rightCount]->rg)
+            (*list)[mergedIndex] = leftList[leftCount],
+            leftCount++;
+
+        else
+            (*list)[mergedIndex] = rightList[rightCount],
+            rightCount++;
+
+        (*M)++;
+        mergedIndex++;
+        (*C)++;
+    }
+
+    (*C)++;
+    while (leftCount < leftSize)
+        (*list)[mergedIndex] = leftList[leftCount],
+        leftCount++,
+        mergedIndex++,
+        (*M)++, (*C)++;
+
+    (*C)++;
+    while (rightCount < rightSize)
+        (*list)[mergedIndex] = rightList[rightCount],
+        rightCount++,
+        mergedIndex++,
+        (*M)++, (*C)++;
+
+    delete []rightList;
+    delete []leftList;
+}
+
+void System::mergeSort(int *C, int *M, int begin, int end)
+{
+    (*C)++;
+    if (begin >= end)
+        return;
+
+    int mid = (begin + end) / 2;
+    mergeSort(C, M, begin, mid);
+    mergeSort(C, M, mid + 1, end);
+    merge(C, M, begin, mid, end);
 }
