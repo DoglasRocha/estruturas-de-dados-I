@@ -43,6 +43,7 @@ class System
         void insertionSort(int *C, int *M);
         void bubbleSort(int *C, int *M);
         void shellSort(int *C, int *M);
+        int partition(int *C, int *M, int begin=0, int end=-1);
         void quickSort(int *C, int *M, int begin=0, int end=-1);
         void mergeSort(int *C, int *M);
 };
