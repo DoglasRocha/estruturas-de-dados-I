@@ -1,4 +1,8 @@
 #include "../includes/system.hpp"
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::endl;
 
 void System::sortingMenu(int *C, int *M)
 {

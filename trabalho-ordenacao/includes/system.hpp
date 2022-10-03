@@ -27,12 +27,12 @@ class System
 
         static Person *createPersonManually();
 
-        static Person *createPersonFromFile(std::string name, long rg);
+        static Person *createPersonFromFile(std::string &name, long rg);
         void insertIntoListManually(int index, int *C, int *M);
         void removeFromList(int index, int *C, int *M);
 
-        void writeFileFromList(std::string filename);
-        void readFileAndInsertIntoList(std::string filename);
+        void writeFileFromList(std::string &filename);
+        void readFileAndInsertIntoList(std::string &filename);
 
         void searchingMenu(long rg, int *C, int *M);
         void sequentialSearch(long rg, int *C, int *M);

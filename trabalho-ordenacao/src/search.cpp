@@ -1,4 +1,9 @@
 #include "../includes/system.hpp"
+#include <iostream>
+#include <cmath>
+using std::cin;
+using std::cout;
+using std::endl;
 
 void System::searchingMenu(long rg, int *C, int *M)
 {

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
 #include "../includes/system.hpp"
 #include "../common/includes/person.hpp"
 #include "../sequential-list/includes/sequential-list.hpp"
@@ -160,7 +159,7 @@ void System::printData(Person *person, int index, const int *C, const int *M)
         pIndex = index;
 
     if (person != nullptr)
-        cout << pIndex << "- Nome: " << person->name << ", RG: " << person->rg
+        cout << pIndex << " - Nome: " << person->name << ", RG: " << person->rg
              << " posição: " << pIndex << ", ";
     else
         cout << "RG não encontrado, ";
@@ -185,7 +184,7 @@ Person *System::createPersonManually()
     return new Person(name, rg);
 }
 
-Person *System::createPersonFromFile(std::string name, long rg)
+Person *System::createPersonFromFile(std::string &name, long rg)
 {
     return new Person(name, rg);
 }
@@ -223,7 +222,7 @@ void System::sequentialSearch(long rg, int *C, int *M)
     printData(nullptr, i, C, M);
 }   
 
-void System::writeFileFromList(std::string filename)
+void System::writeFileFromList(std::string &filename)
 {
     std::ofstream file(filename); 
     std::string name;
@@ -245,7 +244,7 @@ void System::writeFileFromList(std::string filename)
     cout << "Erro na abertura de arquivo\n";
 }
 
-void System::readFileAndInsertIntoList(std::string filename)
+void System::readFileAndInsertIntoList(std::string &filename)
 {
     int C = 0, M = 0;
     size_t commaPos, lineBreakPos;
