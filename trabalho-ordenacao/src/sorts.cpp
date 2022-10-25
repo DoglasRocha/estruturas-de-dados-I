@@ -100,7 +100,7 @@ void System::insertionSort(int *C, int *M, int h)
             (*list)[j] = (*list)[j - h];
 
         (*list)[j] = current;
-        (*M)++;
+        (*M) += 2;
     }
 }
 
@@ -122,7 +122,7 @@ void System::bubbleSort(int *C, int *M)
 
 void System::shellSort(int *C, int *M)
 {
-    for (int h = list->getLength() / 2; h > 0; h /= 2)
+    for (int h = list->getLength() / 2; h > 0; h /= 2, (*C)++)
         insertionSort(C, M, h);
 }
 

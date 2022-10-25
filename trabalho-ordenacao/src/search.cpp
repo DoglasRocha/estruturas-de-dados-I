@@ -11,50 +11,65 @@ void System::searchingMenu(long rg, int *C, int *M)
          << "(1) Sequencial" << endl
          << "(2) Binária" << endl;
     cin >> option;
+    int indexFound;
+    Person *result;
 
     if (option != 1 && option != 2)
         searchingMenu(rg, C, M);
 
     if (option == 1)
-        sequentialSearch(rg, C, M);
-
-    else
-        binarySearch(rg, C, M);
-}
-
-void System::binarySearch(long rg, int *C, int *M)
-{
-    int currentPos = (int) round((list->getLength() - 1) / 2.0),
-        increase = currentPos;
-    (*M) += 2;
-    start = clock();
-
-    do
     {
-        increase = increase == (int) round(increase / 2.0) ? 0 : (int) round(increase / 2.0);
-        (*C)++, (*M)++;
-
-        if ((*list)[currentPos]->rg > rg)
-        {
-            currentPos += -increase;
-            (*M)++;
-            (*C)++;
-            continue;
-        }
-        else if ((*list)[currentPos]->rg < rg)
-        {
-            currentPos += increase;
-            (*M)++;
-            (*C) += 2;
-            continue;
-        }
-
-        (*C) += 2;
+        start = clock();
+        result = sequentialSearch(rg, &indexFound, C, M);
     }
-    while ((*list)[currentPos]->rg != rg && increase > 0);
 
-    if ((*list)[currentPos]->rg == rg)
-        printData((*list)[currentPos], currentPos, C, M);
     else
-        printData(nullptr, 0, C, M);
+    {
+        start = clock();
+        result = binarySearch(rg, 0, list->getLength() - 1, &indexFound, C, M);
+    }
+
+    printData(result, indexFound, C, M);
 }
+
+Person *System::binarySearch(long rg, int left, int right, int *indexFound, int *C, int *M)
+{
+    (*C)++;
+    if (right >= left)
+    {
+        int mid = left + (right - left) / 2;
+
+        (*C)++;
+        if ((*list)[mid]->rg == rg)
+        {
+            *indexFound = mid;
+            return (*list)[mid];
+        }
+
+        (*C)++;
+        if ((*list)[mid]->rg > rg)
+        {
+            return binarySearch(rg, left, mid - 1, indexFound, C, M);
+        }
+
+        return binarySearch(rg, mid + 1, right, indexFound, C, M);
+    }
+
+    *indexFound = -1;
+    return nullptr;
+}
+
+Person *System::sequentialSearch(long rg, int *indexFound, int *C, int *M)
+{
+    int i, l;
+
+    for (i = 0, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
+        if ((*list)[i]->rg == rg)
+        {
+            *indexFound = i;
+            return (*list)[i];
+        }
+    
+    *indexFound = i;
+    return nullptr;
+}   

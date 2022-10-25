@@ -207,21 +207,6 @@ void System::removeFromList(int index, int *C, int *M)
     delete person;
 }
 
-void System::sequentialSearch(long rg, int *C, int *M)
-{
-    start = clock();
-    int i, l;
-
-    for (i = 0, l = list->getLength(); i < l; i++, (*C) += 2, (*M)++)
-        if ((*list)[i]->rg == rg)
-        {
-            printData((*list)[i], i, C, M);
-            return;
-        }
-    
-    printData(nullptr, i, C, M);
-}   
-
 void System::writeFileFromList(std::string &filename)
 {
     std::ofstream file(filename); 

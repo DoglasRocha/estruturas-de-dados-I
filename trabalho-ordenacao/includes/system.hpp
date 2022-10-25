@@ -35,8 +35,8 @@ class System
         void readFileAndInsertIntoList(std::string &filename);
 
         void searchingMenu(long rg, int *C, int *M);
-        void sequentialSearch(long rg, int *C, int *M);
-        void binarySearch(long rg, int *C, int *M);
+        Person *sequentialSearch(long rg, int *indexFound, int *C, int *M);
+        Person *binarySearch(long rg, int left, int right, int *indexFound, int *C, int *M);
 
         void sortingMenu(int *C, int *M);
         void selectionSort(int *C, int *M);
