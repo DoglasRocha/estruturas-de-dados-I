@@ -1,0 +1,8 @@
+//
+// Created by doglasrocha on 11/6/22.
+//
+
+#ifndef TRABALHO_STRINGS_SYSTEM_HPP
+#define TRABALHO_STRINGS_SYSTEM_HPP
+
+#endif //TRABALHO_STRINGS_SYSTEM_HPP
