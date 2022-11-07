@@ -1,6 +1,10 @@
 .vscode/
 vgcore*
+zips/
 *.zip
 test-files/
 main
 *.bin
+cmake-build-debug/
+.idea/
+relatorios/

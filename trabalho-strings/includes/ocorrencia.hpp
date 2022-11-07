@@ -12,7 +12,7 @@ using std::string;
 class Ocorrencia {
 private:
     string palavra;
-    SequentialList<int> *posicoes;
+    SequentialList<int *> posicoes;
 
 public:
     Ocorrencia();
@@ -20,7 +20,7 @@ public:
     Ocorrencia *setPalavra(string palavra_);
     Ocorrencia *addOcorrencia(int posicao);
     string getPalavra();
-    SequentialList<int> *getOcorrencias();
+    SequentialList<int *> getOcorrencias();
 };
 
 #endif //TRABALHO_STRINGS_OCORRENCIA_HPP
