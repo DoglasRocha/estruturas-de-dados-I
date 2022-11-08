@@ -8,8 +8,8 @@ Ocorrencia::Ocorrencia() {
 }
 
 Ocorrencia::~Ocorrencia() {
-    for (int i = 0, l = posicoes.getLength(); i < l; i++)
-        delete posicoes[i];
+    // for (int i = 0, l = posicoes.getLength(); i < l; i++)
+    //     delete posicoes[i];
 }
 
 Ocorrencia *Ocorrencia::setPalavra(string palavra_) {
@@ -19,8 +19,11 @@ Ocorrencia *Ocorrencia::setPalavra(string palavra_) {
 }
 
 Ocorrencia *Ocorrencia::addOcorrencia(int posicao) {
-    int *ptrPosicao = new int(posicao);
-    posicoes.insert(ptrPosicao, -1);
+    for (int i = 0, l = posicoes.getLength(); i < l; i++)
+        if (posicoes[i] == posicao)
+            return this;
+            
+    posicoes.insert(posicao, -1);
 
     return this;
 }
@@ -29,6 +32,6 @@ string Ocorrencia::getPalavra() {
     return palavra;
 }
 
-SequentialList<int *> Ocorrencia::getOcorrencias() {
+SequentialList<int> Ocorrencia::getOcorrencias() {
     return posicoes;
 }

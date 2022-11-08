@@ -255,11 +255,11 @@ SequentialList<T> *SequentialList<T>::clear()
 {
     if (array)
     {
-        for (int i = 0; i < length; i++)
-            if (array[i] != NULL)
-                delete array[i];
+        // for (int i = 0; i < length; i++)
+        //     if (array[i] != NULL)
+        //         delete array[i];
 
-        free(array);
+        //free(array);
     }
 
     array = static_cast<T *>(malloc(sizeof(T)));

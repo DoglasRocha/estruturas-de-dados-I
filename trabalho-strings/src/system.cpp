@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <locale>
+#include <cctype>
 
 using namespace std;
 
@@ -28,6 +28,9 @@ void System::leArquivo() {
     input >> buffer.rdbuf();
 
     texto = buffer.str();
+    for (int i = 0, l = texto.size(); i < l; i++)
+        texto[i] = tolower(texto[i]);
+
 }
 
 void System::imprimeTexto() {
@@ -52,28 +55,46 @@ int System::binarySearch(string &palavra, int left, int right) {
 
 int System::sequencialSearch(string &palavra) {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
-        if (listaOcorrencias[i]->getPalavra() == palavra)
+        if (listaOcorrencias[i]->getPalavra() == palavra) {
             return i;
-
+        }
+            
     return -1;
 }
 
 void System::inverteArquivo() {
     int i, posEspaco, tamTexto = texto.size();
     string palavra;
-    for (i = posEspaco = 0; posEspaco < tamTexto; posEspaco++)
+    i = posEspaco = 0;
+
+    while (posEspaco < tamTexto)
     {
-        while (isalpha(texto[posEspaco]))
+        i = posEspaco;
+        while (texto[posEspaco] != ' ' &&
+               texto[posEspaco] != ',' &&
+               texto[posEspaco] != '.' &&
+               texto[posEspaco] != '!' &&
+               texto[posEspaco] != '-' &&
+               texto[posEspaco] != ':' &&
+               texto[posEspaco] != '?' &&
+               texto[posEspaco] != '"')
             posEspaco++;
 
-        if (isalpha(texto[i]))
-            palavra = texto.substr(i, posEspaco),
-            forcaBruta(palavra);
+        palavra = texto.substr(i, posEspaco - i);
         posEspaco++;
-        i = posEspaco;
+        if (palavra.size() >= 1 //||
+            /*(palavra != " " &&
+             palavra != "," &&
+             palavra != "." &&
+             palavra != "!" &&
+             palavra != "-" &&
+             palavra != ":" &&
+             palavra != "?" &&
+             palavra != "\"")*/)
+            forcaBruta(palavra);
     }
-    palavra = texto.substr(i, posEspaco);
-    forcaBruta(palavra);
+    //palavra = texto.substr(i, posEspaco - i);
+    //forcaBruta(palavra);
 }
 
 void System::imprimeOcorrencias() {
@@ -81,7 +102,7 @@ void System::imprimeOcorrencias() {
     {
         cout << listaOcorrencias[i]->getPalavra() << ": ";
         for (int j = 0, m = listaOcorrencias[i]->getOcorrencias().getLength(); j < m; j++) {
-            cout << listaOcorrencias[i]->getOcorrencias()[j] << ", ";
+            cout << listaOcorrencias[i]->getOcorrencias()[j] << " ";
         }
         cout << endl;
     }
