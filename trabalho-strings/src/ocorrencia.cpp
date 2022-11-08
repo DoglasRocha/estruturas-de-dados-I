@@ -19,11 +19,10 @@ Ocorrencia *Ocorrencia::setPalavra(string palavra_) {
 }
 
 Ocorrencia *Ocorrencia::addOcorrencia(int posicao) {
-    for (int i = 0, l = posicoes.getLength(); i < l; i++)
-        if (posicoes[i] == posicao)
-            return this;
-            
-    posicoes.insert(posicao, -1);
+    int buscaPosicao = binarySearch(posicao, 0, posicoes.getLength() - 1);
+
+    if (buscaPosicao == -1)
+        posicoes.insert(posicao, -1);
 
     return this;
 }
@@ -34,4 +33,20 @@ string Ocorrencia::getPalavra() {
 
 SequentialList<int> Ocorrencia::getOcorrencias() {
     return posicoes;
+}
+
+int Ocorrencia::binarySearch(int key, int left, int right) {
+    if (right >= left)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (posicoes[mid] == key)
+            return mid;
+
+        if (posicoes[mid] > key)
+            return binarySearch(key, left, mid - 1);
+
+        return binarySearch(key, mid + 1, right);
+    }
+    return -1;
 }

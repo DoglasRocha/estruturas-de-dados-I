@@ -13,7 +13,7 @@ System::System() {
     leArquivo();
     // imprimeTexto();
     inverteArquivo();
-    imprimeOcorrencias();
+    imprimeArquivoInvertido();
 }
 
 System::~System() {
@@ -22,12 +22,18 @@ System::~System() {
 }
 
 void System::leArquivo() {
-    ifstream input("Historia.txt");
+    string path;
+
+    cout << "Qual o nome do arquivo??" << endl;
+    cin >> path;
+
+    ifstream input(path);
     stringstream buffer;
 
     input >> buffer.rdbuf();
 
     texto = buffer.str();
+    // convertendo para lowercase
     for (int i = 0, l = texto.size(); i < l; i++)
         texto[i] = tolower(texto[i]);
 
@@ -55,9 +61,8 @@ int System::binarySearch(string &palavra, int left, int right) {
 
 int System::sequencialSearch(string &palavra) {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
-        if (listaOcorrencias[i]->getPalavra() == palavra) {
+        if (listaOcorrencias[i]->getPalavra() == palavra)
             return i;
-        }
             
     return -1;
 }
@@ -67,7 +72,7 @@ void System::inverteArquivo() {
     string palavra;
     i = posEspaco = 0;
 
-    while (posEspaco < tamTexto)
+    while (posEspaco < tamTexto - 1)
     {
         i = posEspaco;
         while (texto[posEspaco] != ' ' &&
@@ -77,27 +82,18 @@ void System::inverteArquivo() {
                texto[posEspaco] != '-' &&
                texto[posEspaco] != ':' &&
                texto[posEspaco] != '?' &&
-               texto[posEspaco] != '"')
+               texto[posEspaco] != '"' &&
+               texto[posEspaco] != '\n')
             posEspaco++;
 
         palavra = texto.substr(i, posEspaco - i);
         posEspaco++;
-        if (palavra.size() >= 1 //||
-            /*(palavra != " " &&
-             palavra != "," &&
-             palavra != "." &&
-             palavra != "!" &&
-             palavra != "-" &&
-             palavra != ":" &&
-             palavra != "?" &&
-             palavra != "\"")*/)
+        if (palavra.size() >= 1)
             forcaBruta(palavra);
     }
-    //palavra = texto.substr(i, posEspaco - i);
-    //forcaBruta(palavra);
 }
 
-void System::imprimeOcorrencias() {
+void System::imprimeArquivoInvertido() {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
     {
         cout << listaOcorrencias[i]->getPalavra() << ": ";
@@ -135,5 +131,39 @@ void System::addOcorrencia(string &palavra, long posicao) {
     }
     else
         listaOcorrencias[resultadoPesquisa]->addOcorrencia(posicao);
+}
+
+void System::imprimeMenu() {
+    int opcao;
+
+    cout << "O que você deseja fazer?" << endl << endl;
+
+    cout << "(1) Ler um arquivo" << endl
+         << "(2) Apresentar arquivo invertido" << endl
+         << "(3) Procurar uma palavra no arquivo invertido" << endl
+         << "(4) Sair" << endl;
+
+    cin >> opcao;
+
+    switch (opcao) {
+        case (1):
+            leArquivo();
+            break;
+
+        case (2):
+            imprimeArquivoInvertido();
+            break;
+
+        case (3):
+            //procurarPalavra();
+            break;
+
+        case (4):
+            break;
+
+        default:
+            cout << "Opção inválida!!" << endl;
+            imprimeMenu();
+    }
 }
 

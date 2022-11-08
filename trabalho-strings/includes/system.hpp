@@ -21,11 +21,12 @@ public:
     void leArquivo();
     void imprimeTexto();
     void inverteArquivo();
-    void imprimeOcorrencias();
+    void imprimeArquivoInvertido();
     void forcaBruta(string &palavra);
     void addOcorrencia(string &palavra, long posicao);
     int binarySearch(string &palavra, int left, int right);
     int sequencialSearch(string &palavra);
+    void imprimeMenu();
 };
 
 #endif //TRABALHO_STRINGS_SYSTEM_HPP

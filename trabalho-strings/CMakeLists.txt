@@ -3,4 +3,6 @@ project(trabalho_strings)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(trabalho_strings main.cpp includes/ocorrencia.hpp src/ocorrencias.cpp includes/system.hpp src/system.cpp includes/sorts.hpp src/sorts.cpp)
+file (GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+add_executable(trabalho_strings main.cpp ${SOURCES})

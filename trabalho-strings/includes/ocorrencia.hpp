@@ -21,6 +21,7 @@ public:
     Ocorrencia *addOcorrencia(int posicao);
     string getPalavra();
     SequentialList<int> getOcorrencias();
+    int binarySearch(int key, int left, int right);
 };
 
 #endif //TRABALHO_STRINGS_OCORRENCIA_HPP
