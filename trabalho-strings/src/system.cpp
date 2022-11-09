@@ -10,10 +10,29 @@
 using namespace std;
 
 System::System() {
-    leArquivo();
-    // imprimeTexto();
-    inverteArquivo();
-    imprimeArquivoInvertido();
+    int opcao;
+
+    do {
+        opcao = imprimeMenu();
+        switch (opcao) {
+            case 1:
+                leArquivo();
+                break;
+
+            case 2:
+                imprimeTexto();
+                break;
+
+            case 3:
+                inverteArquivo();
+                imprimeArquivoInvertido();
+                break;
+
+            case 4:
+                //imprimeOcorrencia();
+                break;
+        }
+    } while (opcao != 5);
 }
 
 System::~System() {
@@ -24,7 +43,7 @@ System::~System() {
 void System::leArquivo() {
     string path;
 
-    cout << "Qual o nome do arquivo??" << endl;
+    cout << "Qual o nome do arquivo?" << endl;
     cin >> path;
 
     ifstream input(path);
@@ -36,7 +55,6 @@ void System::leArquivo() {
     // convertendo para lowercase
     for (int i = 0, l = texto.size(); i < l; i++)
         texto[i] = tolower(texto[i]);
-
 }
 
 void System::imprimeTexto() {
@@ -91,6 +109,8 @@ void System::inverteArquivo() {
         if (palavra.size() >= 1)
             forcaBruta(palavra);
     }
+
+    mergeSort(0, listaOcorrencias.getLength() - 1);
 }
 
 void System::imprimeArquivoInvertido() {
@@ -133,37 +153,75 @@ void System::addOcorrencia(string &palavra, long posicao) {
         listaOcorrencias[resultadoPesquisa]->addOcorrencia(posicao);
 }
 
-void System::imprimeMenu() {
+int System::imprimeMenu() {
     int opcao;
 
     cout << "O que você deseja fazer?" << endl << endl;
 
     cout << "(1) Ler um arquivo" << endl
-         << "(2) Apresentar arquivo invertido" << endl
-         << "(3) Procurar uma palavra no arquivo invertido" << endl
-         << "(4) Sair" << endl;
+         << "(2) Imprime texto" << endl
+         << "(3) Apresentar arquivo invertido" << endl
+         << "(4) Procurar uma palavra no arquivo invertido" << endl
+         << "(5) Sair" << endl;
 
     cin >> opcao;
 
-    switch (opcao) {
-        case (1):
-            leArquivo();
-            break;
-
-        case (2):
-            imprimeArquivoInvertido();
-            break;
-
-        case (3):
-            //procurarPalavra();
-            break;
-
-        case (4):
-            break;
-
-        default:
-            cout << "Opção inválida!!" << endl;
-            imprimeMenu();
+    if (opcao < 1 || opcao > 5) {
+        cout << "Opção inválida!!" << endl << endl;
+        return imprimeMenu();
     }
+
+    return opcao;
+}
+
+void System::merge(int begin, int mid, int end) {
+    int leftSize, rightSize, leftCount = 0, rightCount = 0, mergedIndex = begin;
+    Ocorrencia **leftList, **rightList;
+    leftSize = mid - begin + 1;
+    rightSize = end - mid;
+    leftList = new Ocorrencia*[leftSize];
+    rightList = new Ocorrencia*[rightSize];
+
+    for (int i = 0; i < leftSize; i++)
+        leftList[i] = listaOcorrencias[begin + i];
+
+    for (int i = 0; i < rightSize; i++)
+        rightList[i] = listaOcorrencias[mid + 1 + i];
+
+    while (leftCount < leftSize && rightCount < rightSize)
+    {
+        if (leftList[leftCount]->getPalavra() <= rightList[rightCount]->getPalavra())
+            listaOcorrencias[mergedIndex] = leftList[leftCount],
+            leftCount++;
+
+        else
+            listaOcorrencias[mergedIndex] = rightList[rightCount],
+            rightCount++;
+
+        mergedIndex++;
+    }
+
+    while (leftCount < leftSize)
+        listaOcorrencias[mergedIndex] = leftList[leftCount],
+        leftCount++,
+        mergedIndex++;
+
+    while (rightCount < rightSize)
+        listaOcorrencias[mergedIndex] = rightList[rightCount],
+        rightCount++,
+        mergedIndex++;
+
+    delete []rightList;
+    delete []leftList;
+}
+
+void System::mergeSort(int begin, int end) {
+    if (begin >= end)
+        return;
+
+    int mid = (begin + end) / 2;
+    mergeSort(begin, mid);
+    mergeSort(mid + 1, end);
+    merge(begin, mid, end);
 }
 

@@ -26,7 +26,9 @@ public:
     void addOcorrencia(string &palavra, long posicao);
     int binarySearch(string &palavra, int left, int right);
     int sequencialSearch(string &palavra);
-    void imprimeMenu();
+    int imprimeMenu();
+    void merge(int begin, int mid, int end);
+    void mergeSort(int begin, int end);
 };
 
 #endif //TRABALHO_STRINGS_SYSTEM_HPP
