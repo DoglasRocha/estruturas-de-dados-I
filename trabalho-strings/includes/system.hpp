@@ -29,6 +29,9 @@ public:
     int imprimeMenu();
     void merge(int begin, int mid, int end);
     void mergeSort(int begin, int end);
+    void imprimeOcorrencia(int posPalavra, int numOcorrencia=0);
+    int lePalavra();
+
 };
 
 #endif //TRABALHO_STRINGS_SYSTEM_HPP

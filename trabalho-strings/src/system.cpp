@@ -11,12 +11,14 @@ using namespace std;
 
 System::System() {
     int opcao;
+    int posPalavra;
 
     do {
         opcao = imprimeMenu();
         switch (opcao) {
             case 1:
                 leArquivo();
+                inverteArquivo();
                 break;
 
             case 2:
@@ -24,12 +26,12 @@ System::System() {
                 break;
 
             case 3:
-                inverteArquivo();
                 imprimeArquivoInvertido();
                 break;
 
             case 4:
-                //imprimeOcorrencia();
+                posPalavra = lePalavra();
+                imprimeOcorrencia(posPalavra);
                 break;
         }
     } while (opcao != 5);
@@ -223,5 +225,47 @@ void System::mergeSort(int begin, int end) {
     mergeSort(begin, mid);
     mergeSort(mid + 1, end);
     merge(begin, mid, end);
+}
+
+void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
+    int begin, length, posOcorrencia, tamPalavra, opcao;
+    string trecho;
+
+    posOcorrencia = listaOcorrencias[posPalavra]->getOcorrencias()[numOcorrencia];
+    tamPalavra = listaOcorrencias[posPalavra]->getPalavra().size();
+
+    begin = posOcorrencia - 20;
+    // protecao lado menor
+    begin = begin < 0 ? 0 : begin;
+
+    length = tamPalavra + 40;
+    // protecao lado maior
+    length = (length + posOcorrencia) > (texto.size() - 1) ? posOcorrencia - texto.size() - 1 : length;
+
+    cout << begin << ", " << length << endl;
+    trecho = texto.substr(begin, length);
+    cout << trecho << endl << endl;
+
+    cout << "Deseja ver mais uma ocorrência? 0 - Não, 1 - Sim ";
+    cin >> opcao;
+
+    if (opcao && numOcorrencia < listaOcorrencias[posPalavra]->getOcorrencias().getLength() - 1)
+        imprimeOcorrencia(posPalavra, numOcorrencia + 1);
+}
+
+int System::lePalavra() {
+    string palavra;
+    int resultado;
+
+    cout << "Qual palavra você deseja pesquisar? ";
+    cin >> palavra;
+
+    resultado = binarySearch(palavra, 0, listaOcorrencias.getLength() - 1);
+    if (resultado == -1) {
+        cout << "Palavra não encontrada, digite novamente." << endl;
+        return lePalavra();
+    }
+
+    return resultado;
 }
 
