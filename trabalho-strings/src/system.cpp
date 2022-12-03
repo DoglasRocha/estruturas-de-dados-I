@@ -90,7 +90,7 @@ int System::sequencialSearch(String *palavra) {
 void System::inverteArquivo() {
     int i, posEspaco, tamTexto = texto.size();
     i = posEspaco = 0;
-    String *palavra =  String();
+    String *palavra = new String();
 
     while (posEspaco < tamTexto - 1)
     {
