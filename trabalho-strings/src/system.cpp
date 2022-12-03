@@ -90,7 +90,7 @@ int System::sequencialSearch(String *palavra) {
 void System::inverteArquivo() {
     int i, posEspaco, tamTexto = texto.size();
     i = posEspaco = 0;
-    String *palavra = new String();
+    String *palavra =  String();
 
     while (posEspaco < tamTexto - 1)
     {
@@ -246,9 +246,8 @@ void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     // protecao lado maior
     length = (length + posOcorrencia) > (texto.size() - 1) ? posOcorrencia - texto.size() - 1 : length;
 
-    cout << begin << ", " << length << endl;
     trecho = texto.substr(begin, length);
-    cout << trecho << endl << endl;
+    cout << endl << trecho << endl << endl;
 
     cout << "Deseja ver mais uma ocorrência? 0 - Não, 1 - Sim ";
     cin >> opcao;
@@ -262,6 +261,7 @@ int System::lePalavra() {
     int resultado;
 
     cout << "Qual palavra você deseja pesquisar? ";
+    cin.ignore();
     cin >> palavra;
 
     resultado = binarySearch(&palavra, 0, listaOcorrencias.getLength() - 1);
