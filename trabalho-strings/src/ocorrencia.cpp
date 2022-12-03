@@ -8,8 +8,7 @@ Ocorrencia::Ocorrencia() {
 }
 
 Ocorrencia::~Ocorrencia() {
-    // for (int i = 0, l = posicoes.getLength(); i < l; i++)
-    //     delete posicoes[i];
+    delete palavra;
 }
 
 Ocorrencia *Ocorrencia::setPalavra(String *palavra_) {

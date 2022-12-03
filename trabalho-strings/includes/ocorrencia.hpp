@@ -9,7 +9,7 @@
 
 class Ocorrencia {
 private:
-    String *palavra;
+    String *palavra = nullptr;
     SequentialList<int> posicoes;
 
 public:

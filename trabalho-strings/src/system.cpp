@@ -95,7 +95,7 @@ void System::inverteArquivo() {
     while (posEspaco < tamTexto - 1)
     {
         i = posEspaco;
-        while (texto[posEspaco] != ' ' &&
+        while (texto[posEspaco] != ' ' /*&&
                texto[posEspaco] != ',' &&
                texto[posEspaco] != '.' &&
                texto[posEspaco] != '!' &&
@@ -103,7 +103,7 @@ void System::inverteArquivo() {
                texto[posEspaco] != ':' &&
                texto[posEspaco] != '?' &&
                texto[posEspaco] != '"' &&
-               texto[posEspaco] != '\n')
+               texto[posEspaco] != '\n'*/)
             posEspaco++;
 
 
