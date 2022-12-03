@@ -12,8 +12,9 @@ Ocorrencia::~Ocorrencia() {
     //     delete posicoes[i];
 }
 
-Ocorrencia *Ocorrencia::setPalavra(string palavra_) {
-    palavra = palavra_;
+Ocorrencia *Ocorrencia::setPalavra(String *palavra_) {
+    palavra = new String();
+    *palavra = *palavra_;
 
     return this;
 }
@@ -27,7 +28,7 @@ Ocorrencia *Ocorrencia::addOcorrencia(int posicao) {
     return this;
 }
 
-string Ocorrencia::getPalavra() {
+String *Ocorrencia::getPalavra() {
     return palavra;
 }
 

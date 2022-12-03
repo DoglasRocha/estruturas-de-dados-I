@@ -3,11 +3,10 @@
 #include "includes/String.hpp"
 
 int main() {
-    //System system;
+    System system;
+    //String s1 = "ouviram", s2 = "aaa";
 
-    String s1;
+    //std::cout << (s1 <= s2) << std::endl;
 
-    std::cin >> s1;
-    std::cout << s1 << std::endl;
     return 0;
 }

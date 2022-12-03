@@ -5,21 +5,19 @@
 #ifndef TRABALHO_STRINGS_OCORRENCIA_HPP
 #define TRABALHO_STRINGS_OCORRENCIA_HPP
 #include "sequential-list.hpp"
-#include <string>
-
-using std::string;
+#include "String.hpp"
 
 class Ocorrencia {
 private:
-    string palavra;
+    String *palavra;
     SequentialList<int> posicoes;
 
 public:
     Ocorrencia();
     ~Ocorrencia();
-    Ocorrencia *setPalavra(string palavra_);
+    Ocorrencia *setPalavra(String *palavra_);
     Ocorrencia *addOcorrencia(int posicao);
-    string getPalavra();
+    String *getPalavra();
     SequentialList<int> getOcorrencias();
     int binarySearch(int key, int left, int right);
 };

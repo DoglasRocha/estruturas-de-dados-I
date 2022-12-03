@@ -63,15 +63,15 @@ void System::imprimeTexto() {
     cout << texto << endl;
 }
 
-int System::binarySearch(string &palavra, int left, int right) {
+int System::binarySearch(String *palavra, int left, int right) {
     if (right >= left)
     {
         int mid = left + (right - left) / 2;
 
-        if (listaOcorrencias[mid]->getPalavra() == palavra)
+        if (*listaOcorrencias[mid]->getPalavra() == *palavra)
             return mid;
 
-        if (listaOcorrencias[mid]->getPalavra() > palavra)
+        if (*listaOcorrencias[mid]->getPalavra() > *palavra)
             return binarySearch(palavra, left, mid - 1);
 
         return binarySearch(palavra, mid + 1, right);
@@ -79,9 +79,9 @@ int System::binarySearch(string &palavra, int left, int right) {
     return -1;
 }
 
-int System::sequencialSearch(string &palavra) {
+int System::sequencialSearch(String *palavra) {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
-        if (listaOcorrencias[i]->getPalavra() == palavra)
+        if (*listaOcorrencias[i]->getPalavra() == *palavra)
             return i;
             
     return -1;
@@ -89,8 +89,8 @@ int System::sequencialSearch(string &palavra) {
 
 void System::inverteArquivo() {
     int i, posEspaco, tamTexto = texto.size();
-    string palavra;
     i = posEspaco = 0;
+    String *palavra = new String();
 
     while (posEspaco < tamTexto - 1)
     {
@@ -106,19 +106,21 @@ void System::inverteArquivo() {
                texto[posEspaco] != '\n')
             posEspaco++;
 
-        palavra = texto.substr(i, posEspaco - i);
+
+        *palavra = texto.substr(i, posEspaco - i);
         posEspaco++;
-        if (palavra.size() >= 1)
+        if (palavra->size() >= 1)
             forcaBruta(palavra);
     }
 
     mergeSort(0, listaOcorrencias.getLength() - 1);
+    delete palavra;
 }
 
 void System::imprimeArquivoInvertido() {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
     {
-        cout << listaOcorrencias[i]->getPalavra() << ": ";
+        cout << *listaOcorrencias[i]->getPalavra() << ": ";
         for (int j = 0, m = listaOcorrencias[i]->getOcorrencias().getLength(); j < m; j++) {
             cout << listaOcorrencias[i]->getOcorrencias()[j] << " ";
         }
@@ -126,14 +128,14 @@ void System::imprimeArquivoInvertido() {
     }
 }
 
-void System::forcaBruta(string &palavra) {
+void System::forcaBruta(String *palavra) {
     long i, j, k, n, m;
-    m = palavra.size();
+    m = palavra->size();
     n = texto.size();
 
     for (i = 1; i <= (n - m + 1); i++) {
         k = i, j = 1;
-        while (palavra[j - 1] == texto[k - 1] && j <= m)
+        while ((*palavra)[j - 1] == texto[k - 1] && j <= m)
             j++, k++;
 
         if (j > m)
@@ -141,7 +143,7 @@ void System::forcaBruta(string &palavra) {
     }
 }
 
-void System::addOcorrencia(string &palavra, long posicao) {
+void System::addOcorrencia(String *palavra, long posicao) {
     int resultadoPesquisa = sequencialSearch(palavra);
 
     if (resultadoPesquisa == -1)
@@ -152,7 +154,9 @@ void System::addOcorrencia(string &palavra, long posicao) {
         listaOcorrencias.insert(ocorrencia, -1);
     }
     else
+    {
         listaOcorrencias[resultadoPesquisa]->addOcorrencia(posicao);
+    }
 }
 
 int System::imprimeMenu() {
@@ -192,7 +196,7 @@ void System::merge(int begin, int mid, int end) {
 
     while (leftCount < leftSize && rightCount < rightSize)
     {
-        if (leftList[leftCount]->getPalavra() <= rightList[rightCount]->getPalavra())
+        if (*leftList[leftCount]->getPalavra() <= *rightList[rightCount]->getPalavra())
             listaOcorrencias[mergedIndex] = leftList[leftCount],
             leftCount++;
 
@@ -229,10 +233,10 @@ void System::mergeSort(int begin, int end) {
 
 void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     int begin, length, posOcorrencia, tamPalavra, opcao;
-    string trecho;
+    String trecho;
 
     posOcorrencia = listaOcorrencias[posPalavra]->getOcorrencias()[numOcorrencia];
-    tamPalavra = listaOcorrencias[posPalavra]->getPalavra().size();
+    tamPalavra = listaOcorrencias[posPalavra]->getPalavra()->size();
 
     begin = posOcorrencia - 20;
     // protecao lado menor
@@ -254,13 +258,13 @@ void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
 }
 
 int System::lePalavra() {
-    string palavra;
+    String palavra;
     int resultado;
 
     cout << "Qual palavra você deseja pesquisar? ";
     cin >> palavra;
 
-    resultado = binarySearch(palavra, 0, listaOcorrencias.getLength() - 1);
+    resultado = binarySearch(&palavra, 0, listaOcorrencias.getLength() - 1);
     if (resultado == -1) {
         cout << "Palavra não encontrada, digite novamente." << endl;
         return lePalavra();
