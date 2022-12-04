@@ -2,6 +2,7 @@
 // Created by doglasrocha on 11/6/22.
 //
 #include "../includes/system.hpp"
+#include "../includes/encoder.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -33,8 +34,12 @@ System::System() {
                 posPalavra = lePalavra();
                 imprimeOcorrencia(posPalavra);
                 break;
+
+            case 5:
+                comprimirArquivo();
+                break;
         }
-    } while (opcao != 5);
+    } while (opcao != 6);
 }
 
 System::~System() {
@@ -96,11 +101,11 @@ void System::inverteArquivo() {
     while (posEspaco < tamTexto - 1)
     {
         i = posEspaco;
-        while (texto[posEspaco] != ' ' /*&&
-               texto[posEspaco] != ',' &&
+        while (texto[posEspaco] != ' ' &&
+               /*texto[posEspaco] != ',' &&
                texto[posEspaco] != '.' &&
                texto[posEspaco] != '!' &&
-               texto[posEspaco] != '-' &&
+               */texto[posEspaco] != '-' /*&&
                texto[posEspaco] != ':' &&
                texto[posEspaco] != '?' &&
                texto[posEspaco] != '"' &&
@@ -126,8 +131,8 @@ void System::imprimeArquivoInvertido() {
     for (int i = 0, l = listaOcorrencias.getLength(); i < l; i++)
     {
         cout << *listaOcorrencias[i]->getPalavra() << ": ";
-        for (int j = 0, m = listaOcorrencias[i]->getOcorrencias().getLength(); j < m; j++) {
-            cout << listaOcorrencias[i]->getOcorrencias()[j] << " ";
+        for (int j = 0, m = listaOcorrencias[i]->getOcorrencias()->getLength(); j < m; j++) {
+            cout << (*listaOcorrencias[i]->getOcorrencias())[j] << " ";
         }
         cout << endl;
     }
@@ -173,11 +178,12 @@ int System::imprimeMenu() {
          << "(2) Imprime texto" << endl
          << "(3) Apresentar arquivo invertido" << endl
          << "(4) Procurar uma palavra no arquivo invertido" << endl
-         << "(5) Sair" << endl;
+         << "(5) Comprimir arquivo" << endl
+         << "(6) Sair" << endl;
 
     cin >> opcao;
 
-    if (opcao < 1 || opcao > 5) {
+    if (opcao < 1 || opcao > 6) {
         cout << "Opção inválida!!" << endl << endl;
         return imprimeMenu();
     }
@@ -240,7 +246,7 @@ void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     int begin, length, posOcorrencia, tamPalavra, opcao;
     char *trecho;
 
-    posOcorrencia = listaOcorrencias[posPalavra]->getOcorrencias()[numOcorrencia];
+    posOcorrencia = (*listaOcorrencias[posPalavra]->getOcorrencias())[numOcorrencia];
     tamPalavra = listaOcorrencias[posPalavra]->getPalavra()->size();
 
     begin = posOcorrencia - 20;
@@ -258,7 +264,7 @@ void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     cin >> opcao;
 
     delete []trecho;
-    if (opcao && numOcorrencia < listaOcorrencias[posPalavra]->getOcorrencias().getLength() - 1)
+    if (opcao && numOcorrencia < listaOcorrencias[posPalavra]->getOcorrencias()->getLength() - 1)
         imprimeOcorrencia(posPalavra, numOcorrencia + 1);
 }
 
@@ -279,3 +285,8 @@ int System::lePalavra() {
     return resultado;
 }
 
+void System::comprimirArquivo() {
+    // compressao iniciada e nao concluida
+    Encoder compressor(&listaOcorrencias);
+    //compressor.encode();
+}

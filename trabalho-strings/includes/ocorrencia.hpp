@@ -18,7 +18,7 @@ public:
     Ocorrencia *setPalavra(String *palavra_);
     Ocorrencia *addOcorrencia(int posicao);
     String *getPalavra();
-    SequentialList<int> getOcorrencias();
+    SequentialList<int> *getOcorrencias();
     int binarySearch(int key, int left, int right);
 };
 

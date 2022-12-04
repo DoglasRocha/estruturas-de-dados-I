@@ -31,7 +31,7 @@ public:
     void mergeSort(int begin, int end);
     void imprimeOcorrencia(int posPalavra, int numOcorrencia=0);
     int lePalavra();
-
+    void comprimirArquivo();
 };
 
 #endif //TRABALHO_STRINGS_SYSTEM_HPP

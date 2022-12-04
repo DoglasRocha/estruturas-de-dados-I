@@ -31,8 +31,8 @@ String *Ocorrencia::getPalavra() {
     return palavra;
 }
 
-SequentialList<int> Ocorrencia::getOcorrencias() {
-    return posicoes;
+SequentialList<int> *Ocorrencia::getOcorrencias() {
+    return &posicoes;
 }
 
 int Ocorrencia::binarySearch(int key, int left, int right) {
