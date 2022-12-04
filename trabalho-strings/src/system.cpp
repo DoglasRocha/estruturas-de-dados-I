@@ -91,6 +91,7 @@ void System::inverteArquivo() {
     int i, posEspaco, tamTexto = texto.size();
     i = posEspaco = 0;
     String *palavra = new String();
+    char *vetCharPalavra = nullptr;
 
     while (posEspaco < tamTexto - 1)
     {
@@ -107,10 +108,14 @@ void System::inverteArquivo() {
             posEspaco++;
 
 
-        *palavra = texto.substr(i, posEspaco - i);
+        vetCharPalavra = texto.substr(i, posEspaco - i);
+        *palavra = vetCharPalavra;
+
         posEspaco++;
         if (palavra->size() >= 1)
             forcaBruta(palavra);
+
+        delete []vetCharPalavra;
     }
 
     mergeSort(0, listaOcorrencias.getLength() - 1);
@@ -233,7 +238,7 @@ void System::mergeSort(int begin, int end) {
 
 void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     int begin, length, posOcorrencia, tamPalavra, opcao;
-    String trecho;
+    char *trecho;
 
     posOcorrencia = listaOcorrencias[posPalavra]->getOcorrencias()[numOcorrencia];
     tamPalavra = listaOcorrencias[posPalavra]->getPalavra()->size();
@@ -252,6 +257,7 @@ void System::imprimeOcorrencia(int posPalavra, int numOcorrencia) {
     cout << "Deseja ver mais uma ocorrência? 0 - Não, 1 - Sim ";
     cin >> opcao;
 
+    delete []trecho;
     if (opcao && numOcorrencia < listaOcorrencias[posPalavra]->getOcorrencias().getLength() - 1)
         imprimeOcorrencia(posPalavra, numOcorrencia + 1);
 }

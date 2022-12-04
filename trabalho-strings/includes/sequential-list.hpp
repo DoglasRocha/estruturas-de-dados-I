@@ -228,7 +228,7 @@ void SequentialList<T>::moveOneIndexDown(int indexToMove)
 template <class T>
 void SequentialList<T>::decreaseListSize()
 {
-    array = static_cast<T *>(realloc(array, sizeof(T) * (length + 1)));
+    array = static_cast<T *>(realloc(array, sizeof(T) * (length - 1)));
 }
 
 template <class T>
@@ -259,7 +259,7 @@ SequentialList<T> *SequentialList<T>::clear()
         //     if (array[i] != NULL)
         //         delete array[i];
 
-        //free(array);
+        free(array);
     }
 
     array = static_cast<T *>(malloc(sizeof(T)));
