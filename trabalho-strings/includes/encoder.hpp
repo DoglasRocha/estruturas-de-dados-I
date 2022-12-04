@@ -1,26 +1,13 @@
 #include "sequential-list.hpp"
 #include "ocorrencia.hpp"
+#include "frequency.hpp"
 #include "huffman_tree.hpp"
 
 class Encoder {
-    public:
-        class Frequency {
-            private:
-                String *palavra;
-                int freq;
-
-            public:
-                Frequency();
-                ~Frequency();
-                void setPalavra(String *palavra);
-                String *getPalavra() const;
-                void setFreq(int freq);
-                int getFreq() const;
-        };
-
     private:
         SequentialList<Frequency *> listaFrequencias;
         HuffmanTree *tree = nullptr;
+        String texto;
 
         void merge(int begin, int mid, int end);
         void mergeSort(int begin, int end);
@@ -30,6 +17,6 @@ class Encoder {
     public:
         Encoder();
         ~Encoder();
-        Encoder(SequentialList<Ocorrencia *> *listaOcorrencias);
+        Encoder(SequentialList<Ocorrencia *> *listaOcorrencias, String texto);
         void encode();
 };

@@ -75,7 +75,8 @@ Encoder::~Encoder() {
         delete listaFrequencias[i];
 }
 
-Encoder::Encoder(SequentialList<Ocorrencia *> *listaOcorrencias) {
+Encoder::Encoder(SequentialList<Ocorrencia *> *listaOcorrencias, String texto) {
+    this->texto = texto;
     Frequency *frequencia = nullptr;
 
     for (int i = 0; i < listaOcorrencias->getLength(); i++) {
@@ -89,31 +90,5 @@ Encoder::Encoder(SequentialList<Ocorrencia *> *listaOcorrencias) {
 
 void Encoder::encode() {
     mergeSort(0, listaFrequencias.getLength() - 1);
-    printList();
-}
-
-Encoder::Frequency::Frequency() {
-    palavra = nullptr;
-    freq = 0;
-}
-
-Encoder::Frequency::~Frequency() {
-    delete palavra;
-}
-
-void Encoder::Frequency::setPalavra(String *palavra) {
-    this->palavra = new String();
-    *this->palavra = *palavra;
-}
-
-String *Encoder::Frequency::getPalavra() const {
-    return palavra;
-}
-
-void Encoder::Frequency::setFreq(int freq) {
-    this->freq = freq;
-}
-
-int Encoder::Frequency::getFreq() const {
-    return freq;
+    //printList();
 }

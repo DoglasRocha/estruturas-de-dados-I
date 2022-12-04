@@ -287,6 +287,6 @@ int System::lePalavra() {
 
 void System::comprimirArquivo() {
     // compressao iniciada e nao concluida
-    Encoder compressor(&listaOcorrencias);
-    //compressor.encode();
+    Encoder compressor(&listaOcorrencias, texto);
+    compressor.encode();
 }
