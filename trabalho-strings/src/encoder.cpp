@@ -55,7 +55,9 @@ void Encoder::mergeSort(int begin, int end) {
 }
 
 void Encoder::buildHuffmanTree() {
-
+    tree = new HuffmanTree(&listaFrequencias);
+    tree->build();    
+    //tree->printTree();
 }
 
 void Encoder::printList() {
@@ -90,5 +92,5 @@ Encoder::Encoder(SequentialList<Ocorrencia *> *listaOcorrencias, String texto) {
 
 void Encoder::encode() {
     mergeSort(0, listaFrequencias.getLength() - 1);
-    //printList();
+    buildHuffmanTree();
 }

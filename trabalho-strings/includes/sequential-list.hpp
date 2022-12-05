@@ -109,6 +109,8 @@ int SequentialList<T>::getLength()
 template <class T>
 void SequentialList<T>::insertInEmptyList(T data)
 {
+    if (length == 0)
+        array = static_cast<T *>(realloc(array, sizeof(T)));
     array[0] = data;
 }
 
@@ -221,7 +223,7 @@ void SequentialList<T>::increaseListSizeAndMoveOneIndexUp(int indexToMove)
 template <class T>
 void SequentialList<T>::moveOneIndexDown(int indexToMove)
 {
-    for (int i = indexToMove; i < length; i++)
+    for (int i = indexToMove; i < (length-1); i++)
         array[i] = array[i + 1];
 }
 

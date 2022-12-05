@@ -156,6 +156,20 @@ void System::forcaBruta(String *palavra) {
 void System::addOcorrencia(String *palavra, long posicao) {
     int resultadoPesquisa = sequencialSearch(palavra);
 
+    String minitrecho = texto.substr(posicao - 2, palavra->size() + 2),
+    espacos = " ", enter = "\n", travessao = "-";
+    for (int i = 0; i < palavra->size(); i++)
+        espacos += (*palavra)[i],
+        enter += (*palavra)[i],
+        travessao += (*palavra)[i];
+    espacos += ' ';
+    enter += ' ';
+    travessao += ' ';
+
+    if (!(minitrecho == espacos) &&
+        !(minitrecho == enter) &&
+        !(minitrecho == travessao)) return;
+
     if (resultadoPesquisa == -1)
     {
         Ocorrencia *ocorrencia = new Ocorrencia();
