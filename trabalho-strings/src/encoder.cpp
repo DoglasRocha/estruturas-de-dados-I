@@ -57,7 +57,7 @@ void Encoder::mergeSort(int begin, int end) {
 void Encoder::buildHuffmanTree() {
     tree = new HuffmanTree(&listaFrequencias);
     tree->build();    
-    //tree->printTree();
+    tree->printTree();
 }
 
 void Encoder::printList() {

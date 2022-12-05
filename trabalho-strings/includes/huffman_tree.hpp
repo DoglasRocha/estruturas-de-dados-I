@@ -25,5 +25,5 @@ class HuffmanTree {
         void build();
         void insertionSort();
         void printTree();
-        void printLeaf(Node *leaf);
+        void printLeaf(Node *leaf, std::string code="0");
 };

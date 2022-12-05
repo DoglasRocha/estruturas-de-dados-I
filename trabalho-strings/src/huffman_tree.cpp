@@ -1,5 +1,6 @@
 #include "../includes/huffman_tree.hpp"
 #include <iostream>
+#include <string>
 
 Node::Node() {
     frequencia = nullptr;
@@ -30,7 +31,6 @@ HuffmanTree()
     for (int i = 0, l = listaFrequencias->getLength(); i < l; i++) {
         node = new Node();
         node->frequencia = (*listaFrequencias)[i];
-        std::cout << node->frequencia->getFreq() << "," << *node->frequencia->getPalavra() << std::endl;
         listaNodes.insert(node, -1);
     }
 }
@@ -46,14 +46,16 @@ void HuffmanTree::build() {
         node3->frequencia = new Frequency();
         node3->frequencia->setFreq(node1->frequencia->getFreq() + node2->frequencia->getFreq());
 
-        if (node1->frequencia->getFreq() < node2->frequencia->getFreq())
+        // std::cout << "1 " << node1->frequencia->getFreq() << " 2 " << node2->frequencia->getFreq()
+        //           << " r " << node3->frequencia->getFreq() << std::endl; 
+        if (node1->frequencia->getFreq() > node2->frequencia->getFreq())
             node3->left = node1,
             node3->right = node2;
         else
             node3->left = node2,
             node3->right = node1;
 
-        listaNodes.insert(node3, -1);
+        listaNodes.insert(node3, 0);
         insertionSort();
     }
 
@@ -80,17 +82,14 @@ void HuffmanTree::printTree() {
     printLeaf(root);
 }
 
-void HuffmanTree::printLeaf(Node *leaf) {
-    if (leaf->left) 
-        printLeaf(leaf->left);
+void HuffmanTree::printLeaf(Node *leaf, std::string code) {
+    if (leaf->frequencia->getPalavra())
+        std::cout << *leaf->frequencia->getPalavra() << " " << code << std::endl;
+
+    if (leaf->left) {
+        printLeaf(leaf->left, code + '0');
+    }
     
     if (leaf->right)
-        printLeaf(leaf->right);
-
-    std::cout << leaf->frequencia->getFreq() << " ";
-
-    if (leaf->frequencia->getPalavra())
-        std::cout << *leaf->frequencia->getPalavra();
-
-    std::cout << std::endl;
+        printLeaf(leaf->right, code + '1');
 }
