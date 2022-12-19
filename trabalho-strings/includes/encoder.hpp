@@ -6,6 +6,7 @@
 class Encoder {
     private:
         SequentialList<Frequency *> listaFrequencias;
+        SequentialList<WordAndCode *> listaCodigos;
         HuffmanTree *tree = nullptr;
         String texto;
 
@@ -13,6 +14,7 @@ class Encoder {
         void mergeSort(int begin, int end);
         void buildHuffmanTree();
         void printList();
+        void printToFile();
     
     public:
         Encoder();

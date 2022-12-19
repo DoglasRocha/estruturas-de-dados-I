@@ -93,3 +93,35 @@ void HuffmanTree::printLeaf(Node *leaf, std::string code) {
     if (leaf->right)
         printLeaf(leaf->right, code + '1');
 }
+
+void HuffmanTree::buildCodesTable(SequentialList<WordAndCode *> *listaCodigos) {
+    assignCode(root, listaCodigos);
+}
+
+void HuffmanTree::assignCode(Node *leaf, SequentialList<WordAndCode *> *listaCodigos, std::string code) {
+    if (leaf->frequencia->getPalavra()) {
+        WordAndCode *codigo = new WordAndCode();
+
+        char *palavra = leaf->frequencia->getPalavra()->substr(
+            0, leaf->frequencia->getPalavra()->size()
+        );
+
+        codigo->word = palavra;
+        codigo->code = new uint8_t[code.size()];
+        codigo->tamCodigo = code.size();
+        for (int i = 0; i < code.size(); i++)
+            codigo->code[i] = code[i] == '1' ? 1 : 0;
+
+        listaCodigos->insert(codigo, -1);
+        
+        delete []palavra;
+    }
+
+    if (leaf->left) {
+        assignCode(leaf->left, listaCodigos, code + '0');
+    } 
+
+    if (leaf->right) {
+        assignCode(leaf->right, listaCodigos, code + '1');
+    }
+}  

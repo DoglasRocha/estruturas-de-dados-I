@@ -1,6 +1,7 @@
 #pragma once
 #include "frequency.hpp"
 #include "sequential-list.hpp"
+#include "word_and_code.hpp"
 
 class Node {
     private:
@@ -17,6 +18,7 @@ class HuffmanTree {
     private:
         Node *root;
         SequentialList<Node *> listaNodes;
+        SequentialList<WordAndCode *> *listaCodigos;
         
     public:
         HuffmanTree();
@@ -26,4 +28,6 @@ class HuffmanTree {
         void insertionSort();
         void printTree();
         void printLeaf(Node *leaf, std::string code="0");
+        void buildCodesTable(SequentialList<WordAndCode *> *listaCodigos);
+        void assignCode(Node *leaf, SequentialList<WordAndCode *> *listaCodigos, std::string code="0");
 };
