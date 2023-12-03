@@ -2,7 +2,7 @@
 // Created by doglasrocha on 11/6/22.
 //
 #include "../includes/system.hpp"
-#include "../includes/encoder.hpp"
+//#include "../includes/encoder.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -301,6 +301,6 @@ int System::lePalavra() {
 
 void System::comprimirArquivo() {
     // compressao iniciada e nao concluida
-    Encoder compressor(&listaOcorrencias, texto);
-    compressor.encode();
+    //Encoder compressor(&listaOcorrencias, texto);
+    //compressor.encode();
 }

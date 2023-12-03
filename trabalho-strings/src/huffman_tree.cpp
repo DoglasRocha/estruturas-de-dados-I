@@ -1,4 +1,4 @@
-#include "../includes/huffman_tree.hpp"
+/*#include "../includes/huffman_tree.hpp"
 #include <iostream>
 #include <string>
 
@@ -125,3 +125,4 @@ void HuffmanTree::assignCode(Node *leaf, SequentialList<WordAndCode *> *listaCod
         assignCode(leaf->right, listaCodigos, code + '1');
     }
 }  
+*/

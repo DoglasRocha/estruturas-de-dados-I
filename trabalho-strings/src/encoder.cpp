@@ -1,4 +1,4 @@
-#include "../includes/encoder.hpp"
+/*#include "../includes/encoder.hpp"
 #include <iostream>
 #include <cstdio>
 
@@ -130,3 +130,4 @@ void Encoder::encode() {
     buildHuffmanTree();
     printToFile();
 }
+*/
